@@ -53,6 +53,7 @@ function draw() {
     background(0);
 
     updateGeometry();
+
     fill(255, 255, 245);
     for (let i = 0; i < nGestures; i++) {
         renderGesture(gestureArray[i], width, height);
@@ -77,7 +78,6 @@ function mouseDragged() {
         }
     }
 }
-
 
 function keyPressed() {
     if (key == '+' || key == '=') {
@@ -212,11 +212,11 @@ class Gesture {
 
         this.path = new Array(this.capacity); // Vec3f
         this.polygons = new Array(this.capacity); // Polygon
-        this.crosses        = new Array(this.capacity); // int
+        this.crosses = new Array(this.capacity); // int
         
         for (let i = 0; i < this.capacity; i++) {
             this.polygons[i] = new Polygon(4);
-            this.path[i] = new Vec3f();
+            this.path[i] = new Vec3f(0,0,0);
             this.crosses[i] = 0;
         }
         
@@ -345,14 +345,14 @@ class Gesture {
             var apoly; // Polygon
 
             for (let i = 1; i < this.nPathPoints; i++) {
-                taper = pow((lastPolyIndex-i)*npm1finv,tapow);
+                taper = pow((lastPolyIndex - i) * npm1finv, tapow);
 
                 p0 = path[i-1];
                 p1 = path[i        ];
                 p2 = path[i+1];
                 p1x = p1.x;
                 p1y = p1.y;
-                radius1 = Math.max(mint,taper*p1.p*thickness);
+                radius1 = Math.max(mint, taper * p1.p * thickness);
 
                 // assumes all segments are roughly the same length...
                 dx02 = p2.x - p0.x;
@@ -431,7 +431,7 @@ class Gesture {
 	smooth() {
         // average neighboring points
         var weight = 18;
-        var scale        = 1.0 / (weight + 2);
+        var scale = 1.0 / (weight + 2);
         var nPointsMinusTwo = this.nPoints - 2;
         var lower, upper, center;
 
@@ -460,13 +460,13 @@ class Polygon {
 class Vec3f {
 
     constructor(ix, iy, ip) {
-       	if (ix == null && iy == null && ip == null) {
+       	//if (ix == null && iy == null && ip == null) {
     		this.x = 0;
         	this.y = 0;
         	this.p = 0; // Pressure
-    	} else {
+    	//} else {
         	this.set(ix, iy, ip);
-    	}
+    	//}
     }
 
     set(ix, iy, ip) {
