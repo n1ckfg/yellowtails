@@ -248,7 +248,10 @@ class Gesture {
         } else {
             var v = this.distToLast(x, y);
             var p = this.getPressureFromVelocity(v);
+
+            // ~ ~ ~ ~ ~ ~ ~ ~
             this.path[this.nPoints++].set(x,y,p);
+            // ~ ~ ~ ~ ~ ~ ~ ~
 
             if (this.nPoints > 1) {
                 this.exists = true;
@@ -309,7 +312,7 @@ class Gesture {
 
             var nPathPoints = this.nPoints - 1;
             var lastPolyIndex = this.nPathPoints - 1;
-            var npm1finv =        1.0 / max(1, this.nPathPoints - 1);
+            var npm1finv = 1.0 / max(1, this.nPathPoints - 1);
 
             // handle the first point
             p0 = this.path[0];
@@ -348,7 +351,7 @@ class Gesture {
                 taper = pow((lastPolyIndex - i) * npm1finv, tapow);
 
                 p0 = path[i-1];
-                p1 = path[i        ];
+                p1 = path[i];
                 p2 = path[i+1];
                 p1x = p1.x;
                 p1y = p1.y;
@@ -375,7 +378,11 @@ class Gesture {
                 ayid = ayi-ayip;
 
                 // set the vertices of the polygon
+
+                // ~ ~ ~ ~ ~ ~ ~ ~
                 apoly = polygons[nPolys++];
+                // ~ ~ ~ ~ ~ ~ ~ ~
+
                 xpts = apoly.xpoints;
                 ypts = apoly.ypoints;
                 xpts[0] = axi = axid + axip;
@@ -411,7 +418,11 @@ class Gesture {
 
             // handle the last point
             p2 = this.path[nPathPoints];
+
+            // ~ ~ ~ ~ ~ ~ ~ ~
             apoly = this.polygons[this.nPolys++];
+            // ~ ~ ~ ~ ~ ~ ~ ~
+            
             xpts = apoly.xpoints;
             ypts = apoly.ypoints;
 
@@ -460,13 +471,11 @@ class Polygon {
 class Vec3f {
 
     constructor(ix, iy, ip) {
-       	//if (ix == null && iy == null && ip == null) {
     		this.x = 0;
         	this.y = 0;
         	this.p = 0; // Pressure
-    	//} else {
+
         	this.set(ix, iy, ip);
-    	//}
     }
 
     set(ix, iy, ip) {
