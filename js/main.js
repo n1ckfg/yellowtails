@@ -311,8 +311,8 @@ class Gesture {
             var taper = 1.0;
 
             var nPathPoints = this.nPoints - 1;
-            var lastPolyIndex = this.nPathPoints - 1;
-            var npm1finv = 1.0 / max(1, this.nPathPoints - 1);
+            var lastPolyIndex = nPathPoints - 1;
+            var npm1finv = 1.0 / max(1, nPathPoints - 1);
 
             // handle the first point
             p0 = this.path[0];
@@ -347,15 +347,15 @@ class Gesture {
             var i = 1;
             var apoly; // Polygon
 
-            for (let i = 1; i < this.nPathPoints; i++) {
+            for (let i = 1; i < nPathPoints; i++) {
                 taper = pow((lastPolyIndex - i) * npm1finv, tapow);
 
-                p0 = path[i-1];
-                p1 = path[i];
-                p2 = path[i+1];
+                p0 = this.path[i-1];
+                p1 = this.path[i];
+                p2 = this.path[i+1];
                 p1x = p1.x;
                 p1y = p1.y;
-                radius1 = Math.max(mint, taper * p1.p * thickness);
+                radius1 = Math.max(mint, taper * p1.p * this.thickness);
 
                 // assumes all segments are roughly the same length...
                 dx02 = p2.x - p0.x;
@@ -372,15 +372,15 @@ class Gesture {
                 // translate the integer coordinates to the viewing rectangle
                 axi = axip = floor(ax);
                 ayi = ayip = floor(ay);
-                axi=(axi < 0) ? (w - (( -axi) % w)) : axi % w;
+                axi=(axi < 0) ? (this.w - (( -axi) % this.w)) : axi % this.w;
                 axid = axi-axip;
-                ayi=(ayi < 0) ? (h - (( -ayi) % h)) : ayi % h;
+                ayi=(ayi < 0) ? (this.h - (( -ayi) % this.h)) : ayi % this.h;
                 ayid = ayi-ayip;
 
                 // set the vertices of the polygon
 
                 // ~ ~ ~ ~ ~ ~ ~ ~
-                apoly = polygons[nPolys++];
+                apoly = this.polygons[this.nPolys++];
                 // ~ ~ ~ ~ ~ ~ ~ ~
 
                 xpts = apoly.xpoints;
