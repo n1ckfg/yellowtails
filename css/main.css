@@ -1,0 +1,8 @@
+body {
+	background-color: white;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	user-select: none;
+	-webkit-user-select: none;
+}

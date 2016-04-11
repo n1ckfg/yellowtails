@@ -36,7 +36,8 @@ function setup() {
 
 	createCanvas(800, 600);
 	background(0, 0, 0);
-	noStroke();
+	//noStroke();
+    stroke(255);
 
 	currentGestureID = -1;
 	gestureArray = new Array(nGestures);
