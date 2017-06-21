@@ -33,7 +33,7 @@ void ofApp :: draw() {
     ofBackground(0);
     
     updateGeometry();
-    fill(255, 255, 245);
+    //ofFill(255, 255, 245);
     for (int G=0; G<nGestures; G++) {
         renderGesture(gestureArray[G], ofGetWidth(), ofGetHeight());
     }
@@ -96,7 +96,7 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
             
             vector<int> xpts;
             vector<int> ypts;
-            PolygonYT p;
+            PolygonYT p = PolygonYT(4);
             int cr;
             
             //noStroke();
@@ -149,7 +149,7 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
 }
 
 void ofApp :: updateGeometry() {
-    Gesture J;
+    Gesture J = Gesture(ofGetWidth(), ofGetHeight());
     for (int g=0; g<nGestures; g++) {
         if ((J=gestureArray[g]).exists) {
             if (g!=currentGestureID) {

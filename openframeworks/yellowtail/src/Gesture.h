@@ -6,10 +6,11 @@
 class Gesture {
     
     public:
-		Gesture();
-		Gesture(int mw, int mh);
+        Gesture();
+        Gesture(int mw, int mh);
 		virtual ~Gesture() {};
 
+        void initGesture();
 		void clear();
         void clearPolys();
         void addPoint(float x, float y);

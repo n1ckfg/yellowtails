@@ -1,13 +1,18 @@
 #include "Gesture.h"
 
 Gesture :: Gesture() {
-
+    w = 0;
+    h = 0;
+    initGesture();
 }
 
 Gesture :: Gesture(int mw, int mh) {
     w = mw;
     h = mh;
-    
+    initGesture();
+}
+
+void Gesture :: initGesture() {
     twoPi = PI * 2.0;
     radToDeg = (float) (360.0 / (2.0 * PI)); // 57.2957795131;
     damp = 5;
@@ -21,7 +26,7 @@ Gesture :: Gesture(int mw, int mh) {
     crosses.resize(capacity);
     for (int i=0;i<capacity;i++) {
         polygons[i] = PolygonYT();
-        polygons[i].npoints = 4;
+        //polygons[i].npoints = 4;
         path[i] = Vec3f();
         crosses[i] = 0;
     }
@@ -143,7 +148,7 @@ void Gesture :: compile() {
         
         // handle the middle points
         int i=1;
-        PolygonYT apoly;
+        PolygonYT apoly = PolygonYT(4);
         for (i=1; i<nPathPoints; i++) {
             taper = (float) (pow((lastPolyIndex - i) * npm1finv,tapow));
             
