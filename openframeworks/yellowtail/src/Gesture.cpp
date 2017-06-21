@@ -115,7 +115,7 @@ void Gesture :: compile() {
         float dx01, dy01, hp01, si01, co01;
         float dx02, dy02, hp02, si02, co02;
         float dx13, dy13, hp13, si13, co13;
-        float taper = 1.0f;
+        float taper = 1.0;
         
         int  nPathPoints = nPoints - 1;
         int  lastPolyIndex = nPathPoints - 1;
@@ -129,7 +129,7 @@ void Gesture :: compile() {
         dy01 = p1.y - p0.y;
         hp01 = (float) sqrt(dx01 * dx01 + dy01 * dy01);
         if (hp01 == 0) {
-            hp02 = 0.0001f;
+            hp02 = 0.0001;
         }
         co01 = radius0 * dx01 / hp01;
         si01 = radius0 * dy01 / hp01;
@@ -143,17 +143,17 @@ void Gesture :: compile() {
         int RC = w-LC;
         int TC = 20;
         int BC = h-TC;
-        float mint = 0.618f;
-        double tapow = 0.4f;
+        float mint = 0.618;
+        double tapow = 0.4;
         
         // handle the middle points
         int i=1;
-        PolygonYT apoly;// = PolygonYT(4);
+        PolygonYT apoly = PolygonYT(4);
         for (i=1; i<nPathPoints; i++) {
-            taper = (float) (pow((lastPolyIndex - i) * npm1finv,tapow));
+            taper = (float) (pow((lastPolyIndex - i) * npm1finv, tapow));
             
             p0 = path[i-1];
-            p1 = path[i  ];
+            p1 = path[i];
             p2 = path[i+1];
             p1x = p1.x;
             p1y = p1.y;

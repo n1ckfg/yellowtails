@@ -35,15 +35,17 @@ class ofApp : public ofBaseApp {
         int minMove = 3;     // Minimum travel for a new point
         int currentGestureID;
         
-        //PolygonYT tempP;
-        //vector<int> tmpXp;
-        //vector<int> tmpYp;
-        
-        void renderGesture (Gesture gesture, int w, int h);
+        PolygonYT tempP;
+        vector<int> tmpXp;
+        vector<int> tmpYp;
+    
+        int countActiveGestures();
+    
+        void renderGesture(Gesture& gesture, int w, int h);
         
         void updateGeometry();
         
-        void advanceGesture(Gesture gesture);
+        void advanceGesture(Gesture& gesture);
         
         void clearGestures();
     

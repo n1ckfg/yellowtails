@@ -43,20 +43,20 @@ void ofApp :: draw() {
 void ofApp :: mousePressed(int x, int y, int button) {
     theMouseDown = true;
     currentGestureID = (currentGestureID + 1) % nGestures;
-    Gesture G = gestureArray[currentGestureID];
-    G.clear();
-    G.clearPolys();
-    G.addPoint(mouseX, mouseY);
+    //Gesture G = gestureArray[currentGestureID];
+    gestureArray[currentGestureID].clear();
+    gestureArray[currentGestureID].clearPolys();
+    gestureArray[currentGestureID].addPoint((float)mouseX, (float)mouseY);
 }
 
 void ofApp :: mouseDragged(int x, int y, int button) {
     theMouseDown = true;
     if (currentGestureID >= 0) {
-        Gesture G = gestureArray[currentGestureID];
-        if (G.distToLast(mouseX, mouseY) > minMove) {
-            G.addPoint(mouseX, mouseY);
-            G.smooth();
-            G.compile();
+        //Gesture G = gestureArray[currentGestureID];
+        if (gestureArray[currentGestureID].distToLast(mouseX, mouseY) > minMove) {
+            gestureArray[currentGestureID].addPoint((float)mouseX, (float)mouseY);
+            gestureArray[currentGestureID].smooth();
+            gestureArray[currentGestureID].compile();
         }
     }
 }
@@ -89,33 +89,35 @@ void ofApp :: keyPressed(int key) {
     }
 }
 
-void ofApp :: renderGesture(Gesture gesture, int w, int h) {
+void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
     if (gesture.exists) {
         if (gesture.nPolys > 0) {
-            vector<PolygonYT> polygons = gesture.polygons;
-            vector<int> crosses = gesture.crosses;
+            //vector<PolygonYT> polygons = gesture.polygons;
+            //vector<int> crosses = gesture.crosses;
             
             vector<int> xpts;
             vector<int> ypts;
-            PolygonYT p = PolygonYT(4);
+            //PolygonYT p = PolygonYT(4);
             int cr;
             
             //noStroke();
-			ofMesh mesh;
-			mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+            ofSetColor(255,0,0);
+            ofFill();
+            ofMesh mesh;
+            mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
             //ofBeginShape();
             int gnp = gesture.nPolys;
             for (int i=0; i<gnp; i++) {
-                p = polygons[i];
-                xpts = p.xpoints;
-                ypts = p.ypoints;
+                //PolygonYT p = gesture.polygons[i];
+                xpts = gesture.polygons[i].xpoints;
+                ypts = gesture.polygons[i].ypoints;
                 
                 mesh.addVertex(ofVec3f((float)xpts[0], (float)ypts[0], 0));
                 mesh.addVertex(ofVec3f((float)xpts[1], (float)ypts[1], 0));
                 mesh.addVertex(ofVec3f((float)xpts[2], (float)ypts[2], 0));
                 mesh.addVertex(ofVec3f((float)xpts[3], (float)ypts[3], 0));
                 
-                if ((cr = crosses[i]) > 0) {
+                if ((cr = gesture.crosses[i]) > 0) {
                     if ((cr & 3)>0) {
                         mesh.addVertex(ofVec3f((float)xpts[0]+w, (float)ypts[0], 0));
                         mesh.addVertex(ofVec3f((float)xpts[1]+w, (float)ypts[1], 0));
@@ -151,19 +153,27 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
 }
 
 void ofApp :: updateGeometry() {
-    Gesture J = Gesture(ofGetWidth(), ofGetHeight());
+    //Gesture J = Gesture(ofGetWidth(), ofGetHeight());
     for (int g=0; g<nGestures; g++) {
-        if ((J=gestureArray[g]).exists) {
+        if (gestureArray[g].exists) {
             if (g!=currentGestureID) {
-                advanceGesture(J);
+                advanceGesture(gestureArray[g]);
             } else if (!theMouseDown) {
-                advanceGesture(J);
+                advanceGesture(gestureArray[g]);
             }
         }
     }
 }
 
-void ofApp :: advanceGesture(Gesture gesture) {
+int ofApp :: countActiveGestures() {
+    int counter = 0;
+    for (int i=0; i<gestureArray.size(); i++) {
+        if (gestureArray[i].exists) counter++;
+    }
+    return counter;
+}
+
+void ofApp :: advanceGesture(Gesture& gesture) {
     // move a Gesture one step
     if (gesture.exists) { // check
         int nPts = gesture.nPoints;
@@ -173,13 +183,12 @@ void ofApp :: advanceGesture(Gesture gesture) {
         float jy = gesture.jumpDy;
         
         if (nPts > 0) {
-            path = gesture.path;
             for (int i=nPts1; i>0; i--) {
-                path[i].x = path[i-1].x;
-                path[i].y = path[i-1].y;
+                gesture.path[i].x = gesture.path[i-1].x;
+                gesture.path[i].y = gesture.path[i-1].y;
             }
-            path[0].x = path[nPts1].x - jx;
-            path[0].y = path[nPts1].y - jy;
+            gesture.path[0].x = gesture.path[nPts1].x - jx;
+            gesture.path[0].y = gesture.path[nPts1].y - jy;
             gesture.compile();
         }
     }
@@ -194,7 +203,7 @@ void ofApp :: clearGestures() {
 //--------------------------------------------------------------
 void ofApp :: frameRateTitle() {
     string s = ofToString(ofGetFrameRate(), 2) + "fps";
-    ofSetWindowTitle(s);
+    ofSetWindowTitle(s + "  |  exists: " + ofToString(countActiveGestures()) + "  |  active: " + ofToString(currentGestureID));
 }
 
 //--------------------------------------------------------------
