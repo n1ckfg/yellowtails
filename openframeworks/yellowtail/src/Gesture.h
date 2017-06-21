@@ -10,7 +10,7 @@ class Gesture {
         Gesture(int mw, int mh);
 		virtual ~Gesture() {};
 
-        void initGesture();
+        void initGesture(int mw, int mh);
 		void clear();
         void clearPolys();
         void addPoint(float x, float y);
@@ -32,12 +32,12 @@ class Gesture {
         float getPressureFromVelocity(float v);
         void setPressures();
     
-        static double twoPi;
-        static float radToDeg;
-        static float damp;
-        static float dampInv;
-        static float damp1;
-        static float INIT_TH;
+        double twoPi;
+        float radToDeg;
+        float damp;
+        float dampInv;
+        float damp1;
+        float INIT_TH;
     
         int w;
         int h;

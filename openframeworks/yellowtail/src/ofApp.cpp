@@ -1,6 +1,4 @@
 #include "ofApp.h"
-#include "Gesture.h"
-#include "PolygonYT.h"
 
 /**
  * Yellowtail
@@ -18,7 +16,7 @@
  */
 
 void ofApp :: setup() {
-    ofBackground(0);
+    //ofBackground(0);
     //noStroke();
     
     currentGestureID = -1;
@@ -33,15 +31,18 @@ void ofApp :: draw() {
     ofBackground(0);
     
     updateGeometry();
-    //ofFill(255, 255, 245);
+    ofFill();
+    ofSetColor(255, 255, 245);
     for (int G=0; G<nGestures; G++) {
         renderGesture(gestureArray[G], ofGetWidth(), ofGetHeight());
     }
+    
+    frameRateTitle();
 }
 
 void ofApp :: mousePressed(int x, int y, int button) {
     theMouseDown = true;
-    currentGestureID = (currentGestureID+1)%nGestures;
+    currentGestureID = (currentGestureID + 1) % nGestures;
     Gesture G = gestureArray[currentGestureID];
     G.clear();
     G.clearPolys();
@@ -100,42 +101,42 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
             int cr;
             
             //noStroke();
-			//ofMesh mesh;
-			//mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-            ofBeginShape();
+			ofMesh mesh;
+			mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+            //ofBeginShape();
             int gnp = gesture.nPolys;
             for (int i=0; i<gnp; i++) {
                 p = polygons[i];
                 xpts = p.xpoints;
                 ypts = p.ypoints;
                 
-                ofVertex((float) xpts[0], (float)ypts[0], 0);
-                ofVertex((float)xpts[1], (float)ypts[1], 0);
-                ofVertex((float)xpts[2], (float)ypts[2], 0);
-                ofVertex((float)xpts[3], (float)ypts[3], 0);
+                mesh.addVertex(ofVec3f((float)xpts[0], (float)ypts[0], 0));
+                mesh.addVertex(ofVec3f((float)xpts[1], (float)ypts[1], 0));
+                mesh.addVertex(ofVec3f((float)xpts[2], (float)ypts[2], 0));
+                mesh.addVertex(ofVec3f((float)xpts[3], (float)ypts[3], 0));
                 
                 if ((cr = crosses[i]) > 0) {
                     if ((cr & 3)>0) {
-                        ofVertex((float)xpts[0]+w, (float)ypts[0], 0);
-                        ofVertex((float)xpts[1]+w, (float)ypts[1], 0);
-                        ofVertex((float)xpts[2]+w, (float)ypts[2], 0);
-                        ofVertex((float)xpts[3]+w, (float)ypts[3], 0);
+                        mesh.addVertex(ofVec3f((float)xpts[0]+w, (float)ypts[0], 0));
+                        mesh.addVertex(ofVec3f((float)xpts[1]+w, (float)ypts[1], 0));
+                        mesh.addVertex(ofVec3f((float)xpts[2]+w, (float)ypts[2], 0));
+                        mesh.addVertex(ofVec3f((float)xpts[3]+w, (float)ypts[3], 0));
                         
-                        ofVertex((float)xpts[0]-w, (float)ypts[0], 0);
-                        ofVertex((float)xpts[1]-w, (float)ypts[1], 0);
-                        ofVertex((float)xpts[2]-w, (float)ypts[2], 0);
-                        ofVertex((float)xpts[3]-w, (float)ypts[3], 0);
+                        mesh.addVertex(ofVec3f((float)xpts[0]-w, (float)ypts[0], 0));
+                        mesh.addVertex(ofVec3f((float)xpts[1]-w, (float)ypts[1], 0));
+                        mesh.addVertex(ofVec3f((float)xpts[2]-w, (float)ypts[2], 0));
+                        mesh.addVertex(ofVec3f((float)xpts[3]-w, (float)ypts[3], 0));
                     }
                     if ((cr & 12)>0) {
-                        ofVertex((float)xpts[0], (float)ypts[0]+h, 0);
-                        ofVertex((float)xpts[1], (float)ypts[1]+h, 0);
-                        ofVertex((float)xpts[2], (float)ypts[2]+h, 0);
-                        ofVertex((float)xpts[3], (float)ypts[3]+h, 0);
+                        mesh.addVertex(ofVec3f((float)xpts[0], (float)ypts[0]+h, 0));
+                        mesh.addVertex(ofVec3f((float)xpts[1], (float)ypts[1]+h, 0));
+                        mesh.addVertex(ofVec3f((float)xpts[2], (float)ypts[2]+h, 0));
+                        mesh.addVertex(ofVec3f((float)xpts[3], (float)ypts[3]+h, 0));
                         
-                        ofVertex((float)xpts[0], (float)ypts[0]-h, 0);
-                        ofVertex((float)xpts[1], (float)ypts[1]-h, 0);
-                        ofVertex((float)xpts[2], (float)ypts[2]-h, 0);
-                        ofVertex((float)xpts[3], (float)ypts[3]-h, 0);
+                        mesh.addVertex(ofVec3f((float)xpts[0], (float)ypts[0]-h, 0));
+                        mesh.addVertex(ofVec3f((float)xpts[1], (float)ypts[1]-h, 0));
+                        mesh.addVertex(ofVec3f((float)xpts[2], (float)ypts[2]-h, 0));
+                        mesh.addVertex(ofVec3f((float)xpts[3], (float)ypts[3]-h, 0));
                     }
                     
                     // I have knowingly retained the small flaw of not
@@ -143,7 +144,8 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
                     // (the case in which both of the above are true).
                 }
             }
-            ofEndShape();
+            //ofEndShape();
+            mesh.draw();
         }
     }
 }
@@ -189,47 +191,10 @@ void ofApp :: clearGestures() {
     }
 }
 
-/*
-
-//--------------------------------------------------------------
-void ofApp :: setup() {
-    //
-}
-
-//--------------------------------------------------------------
-void ofApp :: update() {
-    //
-}
-
-//--------------------------------------------------------------
-void ofApp :: draw() {
-    ofBackground(bgColor);
-    if (ofGetMousePressed()) {
-        if (strokes[strokes.size()-1].points.size() < 1 || ofDist(mouseX, mouseY, pmouseX, pmouseY) > 2) {
-            if (pmouseX !=0 && pmouseY != 0) {
-                strokes[strokes.size()-1].points.push_back(new ofVec3f(mouseX, mouseY, 0));
-            }
-        }
-    }
-    
-    for (int i=0; i<strokes.size(); i++) {
-        strokes[i].run();
-    }
-    
-    frameRateTitle();
-    pmouseX = mouseX;
-    pmouseY = mouseY;
-}
-
 //--------------------------------------------------------------
 void ofApp :: frameRateTitle() {
     string s = ofToString(ofGetFrameRate(), 2) + "fps";
     ofSetWindowTitle(s);
-}
-
-//--------------------------------------------------------------
-void ofApp :: keyPressed(int key) {
-    strokes.clear();
 }
 
 //--------------------------------------------------------------
@@ -240,21 +205,6 @@ void ofApp :: keyReleased(int key) {
 //--------------------------------------------------------------
 void ofApp :: mouseMoved(int x, int y ) {
 
-}
-
-//--------------------------------------------------------------
-void ofApp :: mouseDragged(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp :: mousePressed(int x, int y, int button) {
-    strokes.push_back(new gesture(fgColor));
-}
-
-//--------------------------------------------------------------
-void ofApp :: mouseReleased(int x, int y, int button) {
-    strokes[strokes.size()-1].refine();
 }
 
 //--------------------------------------------------------------
@@ -281,4 +231,4 @@ void ofApp :: gotMessage(ofMessage msg) {
 void ofApp :: dragEvent(ofDragInfo dragInfo) { 
 
 }
-*/
+

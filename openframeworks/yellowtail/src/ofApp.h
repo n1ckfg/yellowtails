@@ -8,7 +8,7 @@ class ofApp : public ofBaseApp {
 
 	public:
 		void setup();
-		void update();
+		//void update();
 		void draw();
 
 		void keyPressed(int key);
@@ -31,13 +31,13 @@ class ofApp : public ofBaseApp {
         bool theMouseDown = false;
         
         vector<Gesture> gestureArray;
-        const int nGestures = 36;  // Number of gestures
-        const int minMove = 3;     // Minimum travel for a new point
+        int nGestures = 36;  // Number of gestures
+        int minMove = 3;     // Minimum travel for a new point
         int currentGestureID;
         
-        PolygonYT tempP;
-        vector<int> tmpXp;
-        vector<int> tmpYp;
+        //PolygonYT tempP;
+        //vector<int> tmpXp;
+        //vector<int> tmpYp;
         
         void renderGesture (Gesture gesture, int w, int h);
         

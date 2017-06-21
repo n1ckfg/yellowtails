@@ -1,18 +1,18 @@
 #include "Gesture.h"
 
 Gesture :: Gesture() {
-    w = 0;
-    h = 0;
-    initGesture();
+    w = ofGetWidth();
+    h = ofGetHeight();
+    initGesture(w, h);
 }
 
 Gesture :: Gesture(int mw, int mh) {
     w = mw;
     h = mh;
-    initGesture();
+    initGesture(w, h);
 }
 
-void Gesture :: initGesture() {
+void Gesture :: initGesture(int mw, int mh) {
     twoPi = PI * 2.0;
     radToDeg = (float) (360.0 / (2.0 * PI)); // 57.2957795131;
     damp = 5;
@@ -24,8 +24,8 @@ void Gesture :: initGesture() {
     path.resize(capacity);
     polygons.resize(capacity);
     crosses.resize(capacity);
-    for (int i=0;i<capacity;i++) {
-        polygons[i] = PolygonYT();
+    for (int i=0; i<capacity; i++) {
+        polygons[i] = PolygonYT(4);
         //polygons[i].npoints = 4;
         path[i] = Vec3f();
         crosses[i] = 0;
@@ -69,10 +69,10 @@ void Gesture :: addPoint(float x, float y) {
 }
 
 float Gesture :: getPressureFromVelocity(float v) {
-    const float scale = 18;
-    const float minP = 0.02;
-    const float oldP = (nPoints > 0) ? path[nPoints-1].p : 0;
-    return  ((minP + MAX(0, 1.0 - v / scale)) + (damp1 * oldP)) * dampInv;
+    float scale = 18;
+    float minP = 0.02;
+    float oldP = (nPoints > 0) ? path[nPoints-1].p : 0;
+    return ((minP + MAX(0, 1.0 - v / scale)) + (damp1 * oldP)) * dampInv;
 }
 
 void Gesture :: setPressures() {
@@ -117,9 +117,9 @@ void Gesture :: compile() {
         float dx13, dy13, hp13, si13, co13;
         float taper = 1.0f;
         
-        const int  nPathPoints = nPoints - 1;
-        const int  lastPolyIndex = nPathPoints - 1;
-        const float npm1finv =  1.0 / (float) (MAX(1, nPathPoints - 1));
+        int  nPathPoints = nPoints - 1;
+        int  lastPolyIndex = nPathPoints - 1;
+        float npm1finv =  1.0 / (float) (MAX(1, nPathPoints - 1));
         
         // handle the first point
         p0 = path[0];
@@ -139,16 +139,16 @@ void Gesture :: compile() {
         vector<int> xpts;
         vector<int> ypts;
         
-        const int LC = 20;
-        const int RC = w-LC;
-        const int TC = 20;
-        const int BC = h-TC;
-        const float mint = 0.618f;
-        const double tapow = 0.4f;
+        int LC = 20;
+        int RC = w-LC;
+        int TC = 20;
+        int BC = h-TC;
+        float mint = 0.618f;
+        double tapow = 0.4f;
         
         // handle the middle points
         int i=1;
-        PolygonYT apoly = PolygonYT(4);
+        PolygonYT apoly;// = PolygonYT(4);
         for (i=1; i<nPathPoints; i++) {
             taper = (float) (pow((lastPolyIndex - i) * npm1finv,tapow));
             
@@ -208,22 +208,22 @@ void Gesture :: compile() {
         xpts = apoly.xpoints;
         ypts = apoly.ypoints;
         
-        xpts[0] = (int)ax;
-        xpts[1] = (int)bx;
-        xpts[2] = (int)(p2.x);
-        xpts[3] = (int)(p2.x);
+        xpts[0] = (int) ax;
+        xpts[1] = (int) bx;
+        xpts[2] = (int) p2.x;
+        xpts[3] = (int) p2.x;
         
-        ypts[0] = (int)ay;
-        ypts[1] = (int)by;
-        ypts[2] = (int)(p2.y);
-        ypts[3] = (int)(p2.y);
+        ypts[0] = (int) ay;
+        ypts[1] = (int) by;
+        ypts[2] = (int) p2.y;
+        ypts[3] = (int) p2.y;
     }
 }
 
 void Gesture :: smooth() {
     // average neighboring points
-    const float weight = 18;
-    const float scale  = 1.0/(weight + 2);
+    float weight = 18;
+    float scale  = 1.0/(weight + 2);
     int nPointsMinusTwo = nPoints - 2;
     Vec3f lower, upper, center;
     
@@ -232,7 +232,7 @@ void Gesture :: smooth() {
         center = path[i];
         upper = path[i+1];
         
-        center.x = (lower.x + weight*center.x + upper.x)*scale;
-        center.y = (lower.y + weight*center.y + upper.y)*scale;
+        center.x = (lower.x + weight * center.x + upper.x) * scale;
+        center.y = (lower.y + weight * center.y + upper.y) * scale;
     }
 }
