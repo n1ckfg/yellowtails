@@ -35,7 +35,7 @@ class ofApp : public ofBaseApp {
         int minMove = 3;     // Minimum travel for a new point
         int currentGestureID;
         
-        Polygon tempP;
+        ofMesh tempP;
         vector <int *> tmpXp;
         vector <int *> tmpYp;
         

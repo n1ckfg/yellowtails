@@ -15,7 +15,7 @@ class Gesture {
 
         vector <Vec3f *> path;
         vector <int *> crosses;
-        vector <Polygon *> polygons;
+        vector <ofMesh *> polygons;
         int nPoints;
         int nPolys;
         

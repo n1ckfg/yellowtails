@@ -20,27 +20,27 @@ void ofApp :: setup() {
     //noStroke();
     
     currentGestureID = -1;
-    gestureArray = new Gesture[nGestures];
+    gestureArray.resize(nGestures);
     for (int i=0; i<nGestures; i++){
-        gestureArray[i] = new Gesture(width, height);
+        gestureArray[i] = new Gesture(ofGetWidth(), ofGetHeight());
     }
     clearGestures();
 }
 
 void ofApp :: draw() {
-    background(0);
+    ofBackground(0);
     
     updateGeometry();
     fill(255, 255, 245);
     for (int G=0; G<nGestures; G++) {
-        renderGesture(gestureArray[G], width, height);
+        renderGesture(*gestureArray[G], ofGetWidth(), ofGetHeight());
     }
 }
 
 void ofApp :: mousePressed(int x, int y, int button) {
     theMouseDown = true;
     currentGestureID = (currentGestureID+1)%nGestures;
-    Gesture G = gestureArray[currentGestureID];
+    Gesture G = *gestureArray[currentGestureID];
     G.clear();
     G.clearPolys();
     G.addPoint(mouseX, mouseY);
@@ -49,7 +49,7 @@ void ofApp :: mousePressed(int x, int y, int button) {
 void ofApp :: mouseDragged(int x, int y, int button) {
     theMouseDown = true;
     if (currentGestureID >= 0) {
-        Gesture G = gestureArray[currentGestureID];
+        Gesture G = *gestureArray[currentGestureID];
         if (G.distToLast(mouseX, mouseY) > minMove) {
             G.addPoint(mouseX, mouseY);
             G.smooth();
@@ -68,16 +68,16 @@ void ofApp :: keyPressed(int key) {
         case '+':
         case '=':
             if (currentGestureID >= 0) {
-                float th = gestureArray[currentGestureID].thickness;
-                gestureArray[currentGestureID].thickness = Math.min(96, th+1);
-                gestureArray[currentGestureID].compile();
+                float th = gestureArray[currentGestureID] -> thickness;
+                gestureArray[currentGestureID] -> thickness = MIN(96, th+1);
+                gestureArray[currentGestureID] -> compile();
             }
             break;
         case '-':
             if (currentGestureID >= 0) {
-                float th = gestureArray[currentGestureID].thickness;
-                gestureArray[currentGestureID].thickness = Math.max(2, th-1);
-                gestureArray[currentGestureID].compile();
+                float th = gestureArray[currentGestureID] -> thickness;
+                gestureArray[currentGestureID] -> thickness = MAX(2, th-1);
+                gestureArray[currentGestureID] -> compile();
             }
             break;
             
@@ -89,21 +89,21 @@ void ofApp :: keyPressed(int key) {
 void ofApp :: renderGesture(Gesture gesture, int w, int h) {
     if (gesture.exists) {
         if (gesture.nPolys > 0) {
-            Polygon polygons[] = gesture.polygons;
-            int crosses[] = gesture.crosses;
+            vector <ofMesh *> polygons = gesture.polygons;
+            vector <int *> crosses = gesture.crosses;
             
-            int xpts[];
-            int ypts[];
-            Polygon p;
+            vector <int *> xpts;
+            vector <int *> ypts;
+            ofMesh p;
             int cr;
             
-            noStroke();
-            beginShape(QUADS);
+            //noStroke();
+            ofBeginShape(QUADS);
             int gnp = gesture.nPolys;
             for (int i=0; i<gnp; i++) {
-                p = polygons[i];
-                xpts = p.xpoints;
-                ypts = p.ypoints;
+                p = *polygons[i];
+                xpts = p -> xpoints;
+                ypts = p -> ypoints;
                 
                 vertex(xpts[0], ypts[0]);
                 vertex(xpts[1], ypts[1]);

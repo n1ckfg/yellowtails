@@ -12,12 +12,13 @@ Gesture :: Gesture(int mw, int mh) {
     INIT_TH = 14;
     
     capacity = 600;
-    path = new Vec3f[capacity];
-    polygons = new Polygon[capacity];
-    crosses  = new int[capacity];
+    path.resize(capacity);
+    polygons.resize(capacity);
+    crosses.resize(capacity);
     for (int i=0;i<capacity;i++) {
-        polygons[i] = new Polygon();
-        polygons[i].npoints = 4;
+        polygons[i] = new ofMesh();
+        polygons[i] -> setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+        //polygons[i].npoints = 4;
         path[i] = new Vec3f();
         crosses[i] = 0;
     }
@@ -47,12 +48,12 @@ void Gesture :: addPoint(float x, float y) {
     } else {
         float v = distToLast(x, y);
         float p = getPressureFromVelocity(v);
-        path[nPoints++].set(x,y,p);
+        path[nPoints++] -> set(x,y,p);
         
         if (nPoints > 1) {
             exists = true;
-            jumpDx = path[nPoints-1].x - path[0].x;
-            jumpDy = path[nPoints-1].y - path[0].y;
+            jumpDx = path[nPoints-1] -> x - path[0] -> x;
+            jumpDy = path[nPoints-1] -> y - path[0] -> y;
         }
     }
     //}
@@ -60,10 +61,10 @@ void Gesture :: addPoint(float x, float y) {
 }
 
 float Gesture :: getPressureFromVelocity(float v) {
-    float scale = 18f;
-    float minP = 0.02f;
-    float oldP = (nPoints > 0) ? path[nPoints-1].p : 0;
-    return  ((minP + Math.max(0, 1.0f - v/scale)) + (damp1*oldP))*dampInv;
+    float scale = 18;
+    float minP = 0.02;
+    float oldP = (nPoints > 0) ? path[nPoints-1] -> p : 0;
+    return  ((minP + MAX(0, 1.0 - v / scale)) + (damp1 * oldP)) * dampInv;
 }
 
 void Gesture :: setPressures() {
@@ -74,18 +75,18 @@ void Gesture :: setPressures() {
     
     double u = 1.0f/(double)(nPoints - 1)*twoPi;
     for (int i=0; i<nPoints; i++) {
-        pressure = (float) Math.sqrt((1.0f - Math.cos(t))*0.5f);
-        path[i].p = pressure;
+        pressure = (float) sqrt((1.0 - cos(t)) * 0.5);
+        path[i] -> p = pressure;
         t += u;
     }
 }
 
 float Gesture :: distToLast(float ix, float iy) {
     if (nPoints > 0) {
-        Vec3f v = path[nPoints-1];
+        Vec3f v = *path[nPoints-1];
         float dx = v.x - ix;
         float dy = v.y - iy;
-        return (float) Math.sqrt(dx*dx + dy*dy);
+        return (float) sqrt(dx * dx + dy * dy);
     } else {
         return 30;
     }
@@ -108,17 +109,17 @@ void Gesture :: compile() {
         float dx13, dy13, hp13, si13, co13;
         float taper = 1.0f;
         
-        final int  nPathPoints = nPoints - 1;
-        final int  lastPolyIndex = nPathPoints - 1;
-        final float npm1finv =  1.0f/(float)(Math.max(1, nPathPoints - 1));
+        int  nPathPoints = nPoints - 1;
+        int  lastPolyIndex = nPathPoints - 1;
+        float npm1finv =  1.0 / (float) (MAX(1, nPathPoints - 1));
         
         // handle the first point
-        p0 = path[0];
-        p1 = path[1];
-        radius0 = p0.p*thickness;
+        p0 = *path[0];
+        p1 = *path[1];
+        radius0 = p0.p * thickness;
         dx01 = p1.x - p0.x;
         dy01 = p1.y - p0.y;
-        hp01 = (float) Math.sqrt(dx01*dx01 + dy01*dy01);
+        hp01 = (float) sqrt(dx01 * dx01 + dy01 * dy01);
         if (hp01 == 0) {
             hp02 = 0.0001f;
         }
@@ -127,33 +128,33 @@ void Gesture :: compile() {
         ax = p0.x - si01; ay = p0.y + co01;
         bx = p0.x + si01; by = p0.y - co01;
         
-        int xpts[];
-        int ypts[];
+        vector <int *> xpts;
+        vector <int *> ypts;
         
-        final int LC = 20;
-        final int RC = w-LC;
-        final int TC = 20;
-        final int BC = h-TC;
-        final float mint = 0.618f;
-        final double tapow = 0.4f;
+        int LC = 20;
+        int RC = w-LC;
+        int TC = 20;
+        int BC = h-TC;
+        float mint = 0.618f;
+        double tapow = 0.4f;
         
         // handle the middle points
         int i=1;
         Polygon apoly;
         for (i=1; i<nPathPoints; i++) {
-            taper = (float)(Math.pow((lastPolyIndex-i)*npm1finv,tapow));
+            taper = (float) (pow((lastPolyIndex - i) * npm1finv,tapow));
             
-            p0 = path[i-1];
-            p1 = path[i  ];
-            p2 = path[i+1];
+            p0 = *path[i-1];
+            p1 = *path[i  ];
+            p2 = *path[i+1];
             p1x = p1.x;
             p1y = p1.y;
-            radius1 = Math.max(mint,taper*p1.p*thickness);
+            radius1 = MAX(mint, taper * p1.p * thickness);
             
             // assumes all segments are roughly the same length...
             dx02 = p2.x - p0.x;
             dy02 = p2.y - p0.y;
-            hp02 = (float) Math.sqrt(dx02*dx02 + dy02*dy02);
+            hp02 = (float) sqrt(dx02 * dx02 + dy02 * dy02);
             if (hp02 != 0) {
                 hp02 = radius1/hp02;
             }
@@ -169,17 +170,17 @@ void Gesture :: compile() {
             ayid = ayi-ayip;
             
             // set the vertices of the polygon
-            apoly = polygons[nPolys++];
+            apoly = *polygons[nPolys++];
             xpts = apoly.xpoints;
             ypts = apoly.ypoints;
             xpts[0] = axi = axid + axip;
             xpts[1] = bxi = axid + (int) bx;
-            xpts[2] = cxi = axid + (int)(cx = p1x + si02);
-            xpts[3] = dxi = axid + (int)(dx = p1x - si02);
+            xpts[2] = cxi = axid + (int) (cx = p1x + si02);
+            xpts[3] = dxi = axid + (int) (dx = p1x - si02);
             ypts[0] = ayi = ayid + ayip;
             ypts[1] = byi = ayid + (int) by;
-            ypts[2] = cyi = ayid + (int)(cy = p1y - co02);
-            ypts[3] = dyi = ayid + (int)(dy = p1y + co02);
+            ypts[2] = cyi = ayid + (int) (cy = p1y - co02);
+            ypts[3] = dyi = ayid + (int) (dy = p1y + co02);
             
             // keep a record of where we cross the edge of the screen
             crosses[i] = 0;
