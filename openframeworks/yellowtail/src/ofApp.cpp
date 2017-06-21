@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "Gesture.h"
 #include "PolygonYT.h"
 
 /**
@@ -99,6 +100,8 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
             int cr;
             
             //noStroke();
+			//ofMesh mesh;
+			//mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
             ofBeginShape();
             int gnp = gesture.nPolys;
             for (int i=0; i<gnp; i++) {
@@ -106,33 +109,33 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
                 xpts = p.xpoints;
                 ypts = p.ypoints;
                 
-                vertex(xpts[0], ypts[0]);
-                vertex(xpts[1], ypts[1]);
-                vertex(xpts[2], ypts[2]);
-                vertex(xpts[3], ypts[3]);
+                ofVertex((float) xpts[0], (float)ypts[0], 0);
+                ofVertex((float)xpts[1], (float)ypts[1], 0);
+                ofVertex((float)xpts[2], (float)ypts[2], 0);
+                ofVertex((float)xpts[3], (float)ypts[3], 0);
                 
                 if ((cr = crosses[i]) > 0) {
                     if ((cr & 3)>0) {
-                        vertex(xpts[0]+w, ypts[0]);
-                        vertex(xpts[1]+w, ypts[1]);
-                        vertex(xpts[2]+w, ypts[2]);
-                        vertex(xpts[3]+w, ypts[3]);
+                        ofVertex((float)xpts[0]+w, (float)ypts[0], 0);
+                        ofVertex((float)xpts[1]+w, (float)ypts[1], 0);
+                        ofVertex((float)xpts[2]+w, (float)ypts[2], 0);
+                        ofVertex((float)xpts[3]+w, (float)ypts[3], 0);
                         
-                        vertex(xpts[0]-w, ypts[0]);
-                        vertex(xpts[1]-w, ypts[1]);
-                        vertex(xpts[2]-w, ypts[2]);
-                        vertex(xpts[3]-w, ypts[3]);
+                        ofVertex((float)xpts[0]-w, (float)ypts[0], 0);
+                        ofVertex((float)xpts[1]-w, (float)ypts[1], 0);
+                        ofVertex((float)xpts[2]-w, (float)ypts[2], 0);
+                        ofVertex((float)xpts[3]-w, (float)ypts[3], 0);
                     }
                     if ((cr & 12)>0) {
-                        vertex(xpts[0], ypts[0]+h);
-                        vertex(xpts[1], ypts[1]+h);
-                        vertex(xpts[2], ypts[2]+h);
-                        vertex(xpts[3], ypts[3]+h);
+                        ofVertex((float)xpts[0], (float)ypts[0]+h, 0);
+                        ofVertex((float)xpts[1], (float)ypts[1]+h, 0);
+                        ofVertex((float)xpts[2], (float)ypts[2]+h, 0);
+                        ofVertex((float)xpts[3], (float)ypts[3]+h, 0);
                         
-                        vertex(xpts[0], ypts[0]-h);
-                        vertex(xpts[1], ypts[1]-h);
-                        vertex(xpts[2], ypts[2]-h);
-                        vertex(xpts[3], ypts[3]-h);
+                        ofVertex((float)xpts[0], (float)ypts[0]-h, 0);
+                        ofVertex((float)xpts[1], (float)ypts[1]-h, 0);
+                        ofVertex((float)xpts[2], (float)ypts[2]-h, 0);
+                        ofVertex((float)xpts[3], (float)ypts[3]-h, 0);
                     }
                     
                     // I have knowingly retained the small flaw of not
@@ -140,7 +143,7 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
                     // (the case in which both of the above are true).
                 }
             }
-            endShape();
+            ofEndShape();
         }
     }
 }
@@ -163,7 +166,7 @@ void ofApp :: advanceGesture(Gesture gesture) {
     if (gesture.exists) { // check
         int nPts = gesture.nPoints;
         int nPts1 = nPts-1;
-        Vec3f path[];
+        vector<Vec3f> path;
         float jx = gesture.jumpDx;
         float jy = gesture.jumpDy;
         

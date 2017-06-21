@@ -4,6 +4,7 @@
 class PolygonYT {
 
 	public:
+		PolygonYT();
 		PolygonYT(int n);
 		virtual ~PolygonYT() {};
 

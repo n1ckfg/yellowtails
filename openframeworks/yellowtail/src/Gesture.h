@@ -6,8 +6,11 @@
 class Gesture {
     
     public:
-        Gesture(int mw, int mh);
-        void clear();
+		Gesture();
+		Gesture(int mw, int mh);
+		virtual ~Gesture() {};
+
+		void clear();
         void clearPolys();
         void addPoint(float x, float y);
         float distToLast(float ix, float iy);

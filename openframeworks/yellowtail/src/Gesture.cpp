@@ -1,5 +1,9 @@
 #include "Gesture.h"
 
+Gesture :: Gesture() {
+
+}
+
 Gesture :: Gesture(int mw, int mh) {
     w = mw;
     h = mh;
@@ -16,8 +20,8 @@ Gesture :: Gesture(int mw, int mh) {
     polygons.resize(capacity);
     crosses.resize(capacity);
     for (int i=0;i<capacity;i++) {
-        polygons[i] = ofPolyline();
-        polygons[i].resize(4);
+        polygons[i] = PolygonYT();
+        polygons[i].npoints = 4;
         path[i] = Vec3f();
         crosses[i] = 0;
     }
@@ -213,8 +217,8 @@ void Gesture :: compile() {
 
 void Gesture :: smooth() {
     // average neighboring points
-    const float weight = 18f;
-    const float scale  = 1.0f/(weight + 2f);
+    const float weight = 18;
+    const float scale  = 1.0/(weight + 2);
     int nPointsMinusTwo = nPoints - 2;
     Vec3f lower, upper, center;
     
