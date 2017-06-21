@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include "PolygonYT.h"
 #include "Vec3f.h"
 
 class Gesture {
@@ -15,12 +16,12 @@ class Gesture {
 
         vector<Vec3f> path;
         vector<int> crosses;
-        vector<ofPolyline> polygons;
+        vector<PolygonYT> polygons;
         int nPoints;
         int nPolys;
         
         float jumpDx, jumpDy;
-        Boolean exists;
+        bool exists;
         float thickness = INIT_TH;
     
     private:

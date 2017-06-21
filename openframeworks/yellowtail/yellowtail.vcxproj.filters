@@ -16,6 +16,9 @@
 		<ClCompile Include="src\ofApp.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
+		<ClCompile Include="src\PolygonYT.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
 		<ClCompile Include="src\Vec3f.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
@@ -33,6 +36,9 @@
 			<Filter>src</Filter>
 		</ClInclude>
 		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\PolygonYT.h">
 			<Filter>src</Filter>
 		</ClInclude>
 		<ClInclude Include="src\Vec3f.h">

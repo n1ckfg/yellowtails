@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "PolygonYT.h"
 
 /**
  * Yellowtail
@@ -89,12 +90,12 @@ void ofApp :: keyPressed(int key) {
 void ofApp :: renderGesture(Gesture gesture, int w, int h) {
     if (gesture.exists) {
         if (gesture.nPolys > 0) {
-            vector<ofPolyline> polygons = gesture.polygons;
+            vector<PolygonYT> polygons = gesture.polygons;
             vector<int> crosses = gesture.crosses;
             
             vector<int> xpts;
             vector<int> ypts;
-            ofPolyline p;
+            PolygonYT p;
             int cr;
             
             //noStroke();
@@ -144,7 +145,7 @@ void ofApp :: renderGesture(Gesture gesture, int w, int h) {
     }
 }
 
-private void ofApp :: updateGeometry() {
+void ofApp :: updateGeometry() {
     Gesture J;
     for (int g=0; g<nGestures; g++) {
         if ((J=gestureArray[g]).exists) {

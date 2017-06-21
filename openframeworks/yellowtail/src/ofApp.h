@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "Gesture.h"
-#include "Vec3f.h"
+#include "PolygonYT.h"
 
 class ofApp : public ofBaseApp {
 
@@ -28,14 +28,14 @@ class ofApp : public ofBaseApp {
         int pmouseX = 0;
         int pmouseY = 0;
     
-        Boolean theMouseDown = false;
+        bool theMouseDown = false;
         
         vector<Gesture> gestureArray;
         const int nGestures = 36;  // Number of gestures
         const int minMove = 3;     // Minimum travel for a new point
         int currentGestureID;
         
-        ofPolyline tempP;
+        PolygonYT tempP;
         vector<int> tmpXp;
         vector<int> tmpYp;
         

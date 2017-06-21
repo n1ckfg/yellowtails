@@ -139,7 +139,7 @@ void Gesture :: compile() {
         
         // handle the middle points
         int i=1;
-        ofPolyline apoly;
+        PolygonYT apoly;
         for (i=1; i<nPathPoints; i++) {
             taper = (float) (pow((lastPolyIndex - i) * npm1finv,tapow));
             
