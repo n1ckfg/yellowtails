@@ -5,7 +5,7 @@ Gesture :: Gesture(int mw, int mh) {
     h = mh;
     
     twoPi = PI * 2.0;
-    radToDeg = (float)(360.0 / (2.0 * PI)); // 57.2957795131
+    radToDeg = (float) (360.0 / (2.0 * PI)); // 57.2957795131;
     damp = 5;
     dampInv = 1.0 / damp;
     damp1 = damp -1;
@@ -16,10 +16,9 @@ Gesture :: Gesture(int mw, int mh) {
     polygons.resize(capacity);
     crosses.resize(capacity);
     for (int i=0;i<capacity;i++) {
-        polygons[i] = new ofMesh();
-        polygons[i] -> setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-        //polygons[i].npoints = 4;
-        path[i] = new Vec3f();
+        polygons[i] = ofPolyline();
+        polygons[i].resize(4);
+        path[i] = Vec3f();
         crosses[i] = 0;
     }
     nPoints = 0;
@@ -48,12 +47,12 @@ void Gesture :: addPoint(float x, float y) {
     } else {
         float v = distToLast(x, y);
         float p = getPressureFromVelocity(v);
-        path[nPoints++] -> set(x,y,p);
+        path[nPoints++].set(x,y,p);
         
         if (nPoints > 1) {
             exists = true;
-            jumpDx = path[nPoints-1] -> x - path[0] -> x;
-            jumpDy = path[nPoints-1] -> y - path[0] -> y;
+            jumpDx = path[nPoints-1].x - path[0].x;
+            jumpDy = path[nPoints-1].y - path[0].y;
         }
     }
     //}
@@ -61,9 +60,9 @@ void Gesture :: addPoint(float x, float y) {
 }
 
 float Gesture :: getPressureFromVelocity(float v) {
-    float scale = 18;
-    float minP = 0.02;
-    float oldP = (nPoints > 0) ? path[nPoints-1] -> p : 0;
+    const float scale = 18;
+    const float minP = 0.02;
+    const float oldP = (nPoints > 0) ? path[nPoints-1].p : 0;
     return  ((minP + MAX(0, 1.0 - v / scale)) + (damp1 * oldP)) * dampInv;
 }
 
@@ -76,14 +75,14 @@ void Gesture :: setPressures() {
     double u = 1.0f/(double)(nPoints - 1)*twoPi;
     for (int i=0; i<nPoints; i++) {
         pressure = (float) sqrt((1.0 - cos(t)) * 0.5);
-        path[i] -> p = pressure;
+        path[i].p = pressure;
         t += u;
     }
 }
 
 float Gesture :: distToLast(float ix, float iy) {
     if (nPoints > 0) {
-        Vec3f v = *path[nPoints-1];
+        Vec3f v = path[nPoints-1];
         float dx = v.x - ix;
         float dy = v.y - iy;
         return (float) sqrt(dx * dx + dy * dy);
@@ -109,13 +108,13 @@ void Gesture :: compile() {
         float dx13, dy13, hp13, si13, co13;
         float taper = 1.0f;
         
-        int  nPathPoints = nPoints - 1;
-        int  lastPolyIndex = nPathPoints - 1;
-        float npm1finv =  1.0 / (float) (MAX(1, nPathPoints - 1));
+        const int  nPathPoints = nPoints - 1;
+        const int  lastPolyIndex = nPathPoints - 1;
+        const float npm1finv =  1.0 / (float) (MAX(1, nPathPoints - 1));
         
         // handle the first point
-        p0 = *path[0];
-        p1 = *path[1];
+        p0 = path[0];
+        p1 = path[1];
         radius0 = p0.p * thickness;
         dx01 = p1.x - p0.x;
         dy01 = p1.y - p0.y;
@@ -128,25 +127,25 @@ void Gesture :: compile() {
         ax = p0.x - si01; ay = p0.y + co01;
         bx = p0.x + si01; by = p0.y - co01;
         
-        vector <int *> xpts;
-        vector <int *> ypts;
+        vector<int> xpts;
+        vector<int> ypts;
         
-        int LC = 20;
-        int RC = w-LC;
-        int TC = 20;
-        int BC = h-TC;
-        float mint = 0.618f;
-        double tapow = 0.4f;
+        const int LC = 20;
+        const int RC = w-LC;
+        const int TC = 20;
+        const int BC = h-TC;
+        const float mint = 0.618f;
+        const double tapow = 0.4f;
         
         // handle the middle points
         int i=1;
-        Polygon apoly;
+        ofPolyline apoly;
         for (i=1; i<nPathPoints; i++) {
             taper = (float) (pow((lastPolyIndex - i) * npm1finv,tapow));
             
-            p0 = *path[i-1];
-            p1 = *path[i  ];
-            p2 = *path[i+1];
+            p0 = path[i-1];
+            p1 = path[i  ];
+            p2 = path[i+1];
             p1x = p1.x;
             p1y = p1.y;
             radius1 = MAX(mint, taper * p1.p * thickness);
@@ -170,7 +169,7 @@ void Gesture :: compile() {
             ayid = ayi-ayip;
             
             // set the vertices of the polygon
-            apoly = *polygons[nPolys++];
+            apoly = polygons[nPolys++];
             xpts = apoly.xpoints;
             ypts = apoly.ypoints;
             xpts[0] = axi = axid + axip;
@@ -214,8 +213,8 @@ void Gesture :: compile() {
 
 void Gesture :: smooth() {
     // average neighboring points
-    final float weight = 18f;
-    final float scale  = 1.0f/(weight + 2f);
+    const float weight = 18f;
+    const float scale  = 1.0f/(weight + 2f);
     int nPointsMinusTwo = nPoints - 2;
     Vec3f lower, upper, center;
     

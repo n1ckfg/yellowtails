@@ -13,9 +13,9 @@ class Gesture {
         void compile();
         void smooth();
 
-        vector <Vec3f *> path;
-        vector <int *> crosses;
-        vector <ofMesh *> polygons;
+        vector<Vec3f> path;
+        vector<int> crosses;
+        vector<ofPolyline> polygons;
         int nPoints;
         int nPolys;
         
@@ -32,10 +32,10 @@ class Gesture {
         static float damp;
         static float dampInv;
         static float damp1;
-        
+        static float INIT_TH;
+    
         int w;
         int h;
         int capacity;
-        static float INIT_TH;
     
 };

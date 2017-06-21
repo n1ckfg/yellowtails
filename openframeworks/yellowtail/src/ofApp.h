@@ -30,14 +30,14 @@ class ofApp : public ofBaseApp {
     
         Boolean theMouseDown = false;
         
-        vector <Gesture *> gestureArray;
-        int nGestures = 36;  // Number of gestures
-        int minMove = 3;     // Minimum travel for a new point
+        vector<Gesture> gestureArray;
+        const int nGestures = 36;  // Number of gestures
+        const int minMove = 3;     // Minimum travel for a new point
         int currentGestureID;
         
-        ofMesh tempP;
-        vector <int *> tmpXp;
-        vector <int *> tmpYp;
+        ofPolyline tempP;
+        vector<int> tmpXp;
+        vector<int> tmpYp;
         
         void renderGesture (Gesture gesture, int w, int h);
         
