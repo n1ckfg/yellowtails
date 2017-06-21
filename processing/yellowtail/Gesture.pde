@@ -29,8 +29,7 @@ class Gesture {
     polygons = new Polygon[capacity];
     crosses  = new int[capacity];
     for (int i=0;i<capacity;i++) {
-      polygons[i] = new Polygon();
-      polygons[i].npoints = 4;
+      polygons[i] = new Polygon(4);
       path[i] = new Vec3f();
       crosses[i] = 0;
     }

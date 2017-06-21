@@ -1,7 +1,6 @@
 /**
  * Yellowtail
  * by Golan Levin (www.flong.com). 
- * Updated for Processing 3 by Nick Fox-Gieg
  *
  * Click, drag, and release to create a kinetic gesture.
  * 
@@ -12,8 +11,6 @@
  * own period, producing an ever-changing and responsive display of lively, 
  * worm-like textures.
  */
-
-import java.awt.*;
 
 boolean theMouseDown = false;
 
@@ -73,7 +70,6 @@ void mouseDragged() {
 void mouseReleased() {
   theMouseDown = false;
 }
-
 
 void keyPressed() {
   switch (key) {
