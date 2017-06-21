@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "gesture.h"
-#include "vec3f.h"
+#include "Gesture.h"
+#include "Vec3f.h"
 
 class ofApp : public ofBaseApp {
 
@@ -28,9 +28,23 @@ class ofApp : public ofBaseApp {
         int pmouseX = 0;
         int pmouseY = 0;
     
-        vector<gesture *> strokes;
-    
-        ofColor bgColor = ofColor(127);
-        ofColor fgColor = ofColor(0, 200);
+        Boolean theMouseDown = false;
+        
+        vector <Gesture *> gestureArray;
+        int nGestures = 36;  // Number of gestures
+        int minMove = 3;     // Minimum travel for a new point
+        int currentGestureID;
+        
+        Polygon tempP;
+        vector <int *> tmpXp;
+        vector <int *> tmpYp;
+        
+        void renderGesture (Gesture gesture, int w, int h);
+        
+        void updateGeometry();
+        
+        void advanceGesture(Gesture gesture);
+        
+        void clearGestures();
     
 };

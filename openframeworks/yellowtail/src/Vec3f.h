@@ -1,12 +1,12 @@
 #pragma once
 #include "ofMain.h"
 
-class vec3f {
+class Vec3f {
     
     public:
-        vec3f();
-        vec3f(float ix, float iy, float ip);
-        virtual ~vec3f(){};
+        Vec3f();
+        Vec3f(float ix, float iy, float ip);
+        virtual ~Vec3f(){};
     
         void set(float ix, float iy, float ip);
     
