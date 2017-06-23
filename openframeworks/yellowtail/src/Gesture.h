@@ -1,6 +1,6 @@
 #pragma once
 #include "ofMain.h"
-#include "PolygonYT.h"
+#include "PolygonYt.h"
 #include "Vec3f.h"
 
 class Gesture {
@@ -20,7 +20,7 @@ class Gesture {
 
         vector<Vec3f> path;
         vector<int> crosses;
-        vector<PolygonYT> polygons;
+        vector<PolygonYt> polygons;
         int nPoints;
         int nPolys;
         

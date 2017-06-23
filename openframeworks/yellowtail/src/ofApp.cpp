@@ -92,12 +92,12 @@ void ofApp :: keyPressed(int key) {
 void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
     if (gesture.exists) {
         if (gesture.nPolys > 0) {
-            //vector<PolygonYT> polygons = gesture.polygons;
-            //vector<int> crosses = gesture.crosses;
+            vector<PolygonYt> polygons = gesture.polygons;
+            vector<int> crosses = gesture.crosses;
             
             vector<int> xpts;
             vector<int> ypts;
-            //PolygonYT p = PolygonYT(4);
+            PolygonYt p = PolygonYt(4);
             int cr;
             
             //noStroke();
@@ -108,16 +108,16 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
             //ofBeginShape();
             int gnp = gesture.nPolys;
             for (int i=0; i<gnp; i++) {
-                //PolygonYT p = gesture.polygons[i];
                 xpts = gesture.polygons[i].xpoints;
                 ypts = gesture.polygons[i].ypoints;
+                cout << ofToString(xpts) + " " + ofToString(xpts) << endl;
                 
                 mesh.addVertex(ofVec3f((float)xpts[0], (float)ypts[0], 0));
                 mesh.addVertex(ofVec3f((float)xpts[1], (float)ypts[1], 0));
                 mesh.addVertex(ofVec3f((float)xpts[2], (float)ypts[2], 0));
                 mesh.addVertex(ofVec3f((float)xpts[3], (float)ypts[3], 0));
                 
-                if ((cr = gesture.crosses[i]) > 0) {
+                if ((cr = crosses[i]) > 0) {
                     if ((cr & 3)>0) {
                         mesh.addVertex(ofVec3f((float)xpts[0]+w, (float)ypts[0], 0));
                         mesh.addVertex(ofVec3f((float)xpts[1]+w, (float)ypts[1], 0));

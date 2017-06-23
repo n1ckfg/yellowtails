@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "Gesture.h"
-#include "PolygonYT.h"
+#include "PolygonYt.h"
 
 class ofApp : public ofBaseApp {
 
@@ -35,7 +35,7 @@ class ofApp : public ofBaseApp {
         int minMove = 3;     // Minimum travel for a new point
         int currentGestureID;
         
-        PolygonYT tempP;
+        PolygonYt tempP;
         vector<int> tmpXp;
         vector<int> tmpYp;
     

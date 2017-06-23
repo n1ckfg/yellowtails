@@ -25,7 +25,7 @@ void Gesture :: initGesture(int mw, int mh) {
     polygons.resize(capacity);
     crosses.resize(capacity);
     for (int i=0; i<capacity; i++) {
-        polygons[i] = PolygonYT(4);
+        polygons[i] = PolygonYt(4);
         //polygons[i].npoints = 4;
         path[i] = Vec3f();
         crosses[i] = 0;
@@ -148,7 +148,7 @@ void Gesture :: compile() {
         
         // handle the middle points
         int i=1;
-        PolygonYT apoly = PolygonYT(4);
+        PolygonYt apoly = PolygonYt(4);
         for (i=1; i<nPathPoints; i++) {
             taper = (float) (pow((lastPolyIndex - i) * npm1finv, tapow));
             
