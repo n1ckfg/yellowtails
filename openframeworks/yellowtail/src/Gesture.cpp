@@ -136,6 +136,8 @@ void Gesture :: compile() {
         float mint = 0.618;
         double tapow = 0.4;
         
+		PolygonYt *apoly;
+
         // handle the middle points
         for (int i=1; i<nPathPoints; i++) {
             taper = (float) (pow((lastPolyIndex - i) * npm1finv, tapow));
@@ -165,16 +167,18 @@ void Gesture :: compile() {
             ayi=(ayi<0)?(h-((-ayi)%h)):ayi%h;
             ayid = ayi-ayip;
             
+			apoly = &polygons[nPolys++];
+
             // set the vertices of the polygon
-			polygons[nPolys].xpoints[0] = axi = axid + axip;
-			polygons[nPolys].xpoints[1] = bxi = axid + (int) bx;
-			polygons[nPolys].xpoints[2] = cxi = axid + (int) (cx = p1x + si02);
-			polygons[nPolys].xpoints[3] = dxi = axid + (int) (dx = p1x - si02);
+			apoly->xpoints[0] = axi = axid + axip;
+			apoly->xpoints[1] = bxi = axid + (int) bx;
+			apoly->xpoints[2] = cxi = axid + (int) (cx = p1x + si02);
+			apoly->xpoints[3] = dxi = axid + (int) (dx = p1x - si02);
             
-			polygons[nPolys].ypoints[0] = ayi = ayid + ayip;
-			polygons[nPolys].ypoints[1] = byi = ayid + (int) by;
-			polygons[nPolys].ypoints[2] = cyi = ayid + (int) (cy = p1y - co02);
-			polygons[nPolys].ypoints[3] = dyi = ayid + (int) (dy = p1y + co02);
+			apoly->ypoints[0] = ayi = ayid + ayip;
+			apoly->ypoints[1] = byi = ayid + (int) by;
+			apoly->ypoints[2] = cyi = ayid + (int) (cy = p1y - co02);
+			apoly->ypoints[3] = dyi = ayid + (int) (dy = p1y + co02);
             
             // keep a record of where we cross the edge of the screen
 			crosses[i] = 0;
@@ -186,22 +190,21 @@ void Gesture :: compile() {
             //swap data for next time
             ax = dx; ay = dy;
             bx = cx; by = cy;		
-
-			nPolys++;
 		}
         
         // handle the last point
 		p2 = path[nPathPoints];
+		apoly = &polygons[nPolys++];
 
-		polygons[nPolys].xpoints[0] = (int) ax;
-		polygons[nPolys].xpoints[1] = (int) bx;
-		polygons[nPolys].xpoints[2] = (int) p2.x;
-		polygons[nPolys].xpoints[3] = (int) p2.x;
+		apoly->xpoints[0] = (int) ax;
+		apoly->xpoints[1] = (int) bx;
+		apoly->xpoints[2] = (int) p2.x;
+		apoly->xpoints[3] = (int) p2.x;
         
-		polygons[nPolys].ypoints[0] = (int) ay;
-		polygons[nPolys].ypoints[1] = (int) by;
-		polygons[nPolys].ypoints[2] = (int) p2.y;
-		polygons[nPolys].ypoints[3] = (int) p2.y;
+		apoly->ypoints[0] = (int) ay;
+		apoly->ypoints[1] = (int) by;
+		apoly->ypoints[2] = (int) p2.y;
+		apoly->ypoints[3] = (int) p2.y;
     }
 }
 

@@ -98,32 +98,32 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                 //cout << ofToString(gesture.polygons[i].xpoints) + " " + ofToString(gesture.polygons[i].xpoints) << endl;
                 
                 mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[0], (float)gesture.polygons[i].ypoints[0]));
+                mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3], (float)gesture.polygons[i].ypoints[3]));
                 mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[1], (float)gesture.polygons[i].ypoints[1]));
                 mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[2], (float)gesture.polygons[i].ypoints[2]));
-                mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3], (float)gesture.polygons[i].ypoints[3]));
                 
                 if ((cr = gesture.crosses[i]) > 0) {
                     if ((cr & 3)>0) {
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[0]+w, (float)gesture.polygons[i].ypoints[0]));
+                        mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3]+w, (float)gesture.polygons[i].ypoints[3]));
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[1]+w, (float)gesture.polygons[i].ypoints[1]));
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[2]+w, (float)gesture.polygons[i].ypoints[2]));
-                        mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3]+w, (float)gesture.polygons[i].ypoints[3]));
                         
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[0]-w, (float)gesture.polygons[i].ypoints[0]));
+                        mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3]-w, (float)gesture.polygons[i].ypoints[3]));
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[1]-w, (float)gesture.polygons[i].ypoints[1]));
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[2]-w, (float)gesture.polygons[i].ypoints[2]));
-                        mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3]-w, (float)gesture.polygons[i].ypoints[3]));
                     }
                     if ((cr & 12)>0) {
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[0], (float)gesture.polygons[i].ypoints[0]+h));
+                        mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3], (float)gesture.polygons[i].ypoints[3]+h));
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[1], (float)gesture.polygons[i].ypoints[1]+h));
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[2], (float)gesture.polygons[i].ypoints[2]+h));
-                        mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3], (float)gesture.polygons[i].ypoints[3]+h));
                         
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[0], (float)gesture.polygons[i].ypoints[0]-h));
+                        mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3], (float)gesture.polygons[i].ypoints[3]-h));
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[1], (float)gesture.polygons[i].ypoints[1]-h));
                         mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[2], (float)gesture.polygons[i].ypoints[2]-h));
-                        mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[3], (float)gesture.polygons[i].ypoints[3]-h));
                     }
                     
                     // I have knowingly retained the small flaw of not
