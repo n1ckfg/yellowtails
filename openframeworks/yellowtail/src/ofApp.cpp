@@ -92,8 +92,8 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
             int cr;
 
 			ofMesh mesh;
-			mesh.setMode(OF_PRIMITIVE_POINTS);
-			
+			mesh.setMode(OF_PRIMITIVE_LINES);
+
             for (int i=0; i < gesture.nPolys; i++) {
                 //cout << ofToString(gesture.polygons[i].xpoints) + " " + ofToString(gesture.polygons[i].xpoints) << endl;
                 
@@ -131,7 +131,7 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                     // (the case in which both of the above are true).
                 }
             }
-			mesh.draw();
+			mesh.drawFaces();
         }
     }
 }
