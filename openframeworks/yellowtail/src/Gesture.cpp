@@ -45,7 +45,6 @@ void Gesture :: clearPolys() {
 }
 
 void Gesture :: addPoint(float x, float y) {
-    //synchronized (path) {
     if (nPoints >= capacity) {
         // there are all sorts of possible solutions here,
         // but for abject simplicity, I don't do anything.
@@ -59,9 +58,7 @@ void Gesture :: addPoint(float x, float y) {
             jumpDx = path[nPoints-1].x - path[0].x;
             jumpDy = path[nPoints-1].y - path[0].y;
         }
-    }
-    //}
-    
+    }    
 }
 
 float Gesture :: getPressureFromVelocity(float v) {
@@ -180,21 +177,22 @@ void Gesture :: compile() {
 			polygons[nPolys].ypoints[3] = dyi = ayid + (int) (dy = p1y + co02);
             
             // keep a record of where we cross the edge of the screen
-            crosses[i] = 0;
-            if ((axi<=LC) || (bxi<=LC) || (cxi<=LC) || (dxi<=LC)) crosses[i]|=1;
-            if ((axi>=RC) || (bxi>=RC) || (cxi>=RC) || (dxi>=RC)) crosses[i]|=2;
-            if ((ayi<=TC) || (byi<=TC) || (cyi<=TC) || (dyi<=TC)) crosses[i]|=4;
-            if ((ayi>=BC) || (byi>=BC) || (cyi>=BC) || (dyi>=BC)) crosses[i]|=8;
+			crosses[i] = 0;
+            if ((axi<=LC) || (bxi<=LC) || (cxi<=LC) || (dxi<=LC)) crosses[i] |= 1;
+            if ((axi>=RC) || (bxi>=RC) || (cxi>=RC) || (dxi>=RC)) crosses[i] |= 2;
+            if ((ayi<=TC) || (byi<=TC) || (cyi<=TC) || (dyi<=TC)) crosses[i] |= 4;
+            if ((ayi>=BC) || (byi>=BC) || (cyi>=BC) || (dyi>=BC)) crosses[i] |= 8;
             
             //swap data for next time
             ax = dx; ay = dy;
-            bx = cx; by = cy;
+            bx = cx; by = cy;		
 
 			nPolys++;
 		}
         
         // handle the last point
 		p2 = path[nPathPoints];
+
 		polygons[nPolys].xpoints[0] = (int) ax;
 		polygons[nPolys].xpoints[1] = (int) bx;
 		polygons[nPolys].xpoints[2] = (int) p2.x;
