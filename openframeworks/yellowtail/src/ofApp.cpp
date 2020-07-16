@@ -104,7 +104,6 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                 mesh.addVertex(ofVec3f((float)apoly->xpoints[1], (float)apoly->ypoints[1]));
                 mesh.addVertex(ofVec3f((float)apoly->xpoints[2], (float)apoly->ypoints[2]));
                 
-                /*
 				if ((cr = gesture.crosses[i]) > 0) {
                     if ((cr & 3)>0) {
                         mesh.addVertex(ofVec3f((float)apoly->xpoints[0]+w, (float)apoly->ypoints[0]));
@@ -132,7 +131,6 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                     // completely dealing with the corner conditions
                     // (the case in which both of the above are true).
                 }
-				*/
 
             }
 			mesh.drawWireframe();
