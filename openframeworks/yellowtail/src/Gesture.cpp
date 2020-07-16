@@ -21,14 +21,10 @@ void Gesture :: initGesture(int mw, int mh) {
     INIT_TH = 14;
     
     capacity = 600;
-    path.resize(capacity);
-    polygons.resize(capacity);
-    crosses.resize(capacity);
     for (int i=0; i<capacity; i++) {
-        polygons[i] = PolygonYt(4);
-        //polygons[i].npoints = 4;
-        path[i] = Vec3f();
-        crosses[i] = 0;
+        polygons.push_back(PolygonYt(4));
+        path.push_back(Vec3f());
+        crosses.push_back(0);
     }
     nPoints = 0;
     nPolys = 0;
@@ -148,7 +144,6 @@ void Gesture :: compile() {
         
         // handle the middle points
         int i=1;
-        PolygonYt apoly = PolygonYt(4);
         for (i=1; i<nPathPoints; i++) {
             taper = (float) (pow((lastPolyIndex - i) * npm1finv, tapow));
             
@@ -178,17 +173,15 @@ void Gesture :: compile() {
             ayid = ayi-ayip;
             
             // set the vertices of the polygon
-            apoly = polygons[nPolys++];
-            xpts = apoly.xpoints;
-            ypts = apoly.ypoints;
-            xpts[0] = axi = axid + axip;
-            xpts[1] = bxi = axid + (int) bx;
-            xpts[2] = cxi = axid + (int) (cx = p1x + si02);
-            xpts[3] = dxi = axid + (int) (dx = p1x - si02);
-            ypts[0] = ayi = ayid + ayip;
-            ypts[1] = byi = ayid + (int) by;
-            ypts[2] = cyi = ayid + (int) (cy = p1y - co02);
-            ypts[3] = dyi = ayid + (int) (dy = p1y + co02);
+			polygons[nPolys].xpoints[0] = axi = axid + axip;
+			polygons[nPolys].xpoints[1] = bxi = axid + (int) bx;
+			polygons[nPolys].xpoints[2] = cxi = axid + (int) (cx = p1x + si02);
+			polygons[nPolys].xpoints[3] = dxi = axid + (int) (dx = p1x - si02);
+            
+			polygons[nPolys].ypoints[0] = ayi = ayid + ayip;
+			polygons[nPolys].ypoints[1] = byi = ayid + (int) by;
+			polygons[nPolys].ypoints[2] = cyi = ayid + (int) (cy = p1y - co02);
+			polygons[nPolys].ypoints[3] = dyi = ayid + (int) (dy = p1y + co02);
             
             // keep a record of where we cross the edge of the screen
             crosses[i] = 0;
@@ -200,23 +193,22 @@ void Gesture :: compile() {
             //swap data for next time
             ax = dx; ay = dy;
             bx = cx; by = cy;
-        }
+
+			nPolys++;
+		}
         
         // handle the last point
-        p2 = path[nPathPoints];
-        apoly = polygons[nPolys++];
-        xpts = apoly.xpoints;
-        ypts = apoly.ypoints;
+		p2 = path[nPathPoints];
         
-        xpts[0] = (int) ax;
-        xpts[1] = (int) bx;
-        xpts[2] = (int) p2.x;
-        xpts[3] = (int) p2.x;
+		polygons[nPolys].xpoints[0] = (int) ax;
+		polygons[nPolys].xpoints[1] = (int) bx;
+		polygons[nPolys].xpoints[2] = (int) p2.x;
+		polygons[nPolys].xpoints[3] = (int) p2.x;
         
-        ypts[0] = (int) ay;
-        ypts[1] = (int) by;
-        ypts[2] = (int) p2.y;
-        ypts[3] = (int) p2.y;
+		polygons[nPolys].ypoints[0] = (int) ay;
+		polygons[nPolys].ypoints[1] = (int) by;
+		polygons[nPolys].ypoints[2] = (int) p2.y;
+		polygons[nPolys].ypoints[3] = (int) p2.y;
     }
 }
 

@@ -10,8 +10,8 @@ PolygonYt :: PolygonYt(int n) {
 
 void PolygonYt :: initPolygonYt(int n) {
     npoints = n;
-   	xpoints.resize(npoints);
-    xpoints = vector<int>(npoints, 0);
-    ypoints.resize(npoints);
-    ypoints = vector<int>(npoints, 0);
+	for (int i = 0; i < npoints; i++) {
+		xpoints.push_back(0);
+		ypoints.push_back(0);
+	}
 }

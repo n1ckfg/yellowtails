@@ -8,7 +8,6 @@ class ofApp : public ofBaseApp {
 
 	public:
 		void setup();
-		//void update();
 		void draw();
 
 		void keyPressed(int key);
@@ -24,10 +23,7 @@ class ofApp : public ofBaseApp {
 		void gotMessage(ofMessage msg);
 		
         void frameRateTitle();
-    
-        int pmouseX = 0;
-        int pmouseY = 0;
-    
+       
         bool theMouseDown = false;
         
         vector<Gesture> gestureArray;
