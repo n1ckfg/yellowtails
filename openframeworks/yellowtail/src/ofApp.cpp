@@ -96,9 +96,8 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
 			ofMesh mesh;
 			mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
 			
-			int gnp = gesture.nPolys;
-            for (int i=0; i<gnp; i++) {
-                cout << ofToString(gesture.polygons[i].xpoints) + " " + ofToString(gesture.polygons[i].xpoints) << endl;
+            for (int i=0; i< gesture.nPolys; i++) {
+                //cout << ofToString(gesture.polygons[i].xpoints) + " " + ofToString(gesture.polygons[i].xpoints) << endl;
                 
                 mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[0], (float)gesture.polygons[i].ypoints[0]));
                 mesh.addVertex(ofVec3f((float)gesture.polygons[i].xpoints[1], (float)gesture.polygons[i].ypoints[1]));
@@ -140,11 +139,10 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
 }
 
 void ofApp :: updateGeometry() {
-    Gesture J = Gesture(ofGetWidth(), ofGetHeight());
     for (int g=0; g<nGestures; g++) {
-        if ((J = gestureArray[g]).exists) {
+        if (gestureArray[g].exists) {
             if (g!=currentGestureID) {
-                advanceGesture(J);
+                advanceGesture(gestureArray[g]);
             } else if (!theMouseDown) {
                 advanceGesture(gestureArray[g]);
             }
@@ -165,7 +163,6 @@ void ofApp :: advanceGesture(Gesture& gesture) {
     if (gesture.exists) { // check
         int nPts = gesture.nPoints;
         int nPts1 = nPts-1;
-        //vector<Vec3f> path;
         float jx = gesture.jumpDx;
         float jy = gesture.jumpDy;
         
