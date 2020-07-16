@@ -131,10 +131,7 @@ void Gesture :: compile() {
         si01 = radius0 * dy01 / hp01;
         ax = p0.x - si01; ay = p0.y + co01;
         bx = p0.x + si01; by = p0.y - co01;
-        
-        vector<int> xpts;
-        vector<int> ypts;
-        
+               
         int LC = 20;
         int RC = w-LC;
         int TC = 20;
@@ -143,8 +140,7 @@ void Gesture :: compile() {
         double tapow = 0.4;
         
         // handle the middle points
-        int i=1;
-        for (i=1; i<nPathPoints; i++) {
+        for (int i=1; i<nPathPoints; i++) {
             taper = (float) (pow((lastPolyIndex - i) * npm1finv, tapow));
             
             p0 = path[i-1];
@@ -185,10 +181,10 @@ void Gesture :: compile() {
             
             // keep a record of where we cross the edge of the screen
             crosses[i] = 0;
-            if ((axi<=LC)||(bxi<=LC)||(cxi<=LC)||(dxi<=LC)) crosses[i]|=1;
-            if ((axi>=RC)||(bxi>=RC)||(cxi>=RC)||(dxi>=RC)) crosses[i]|=2;
-            if ((ayi<=TC)||(byi<=TC)||(cyi<=TC)||(dyi<=TC)) crosses[i]|=4;
-            if ((ayi>=BC)||(byi>=BC)||(cyi>=BC)||(dyi>=BC)) crosses[i]|=8;
+            if ((axi<=LC) || (bxi<=LC) || (cxi<=LC) || (dxi<=LC)) crosses[i]|=1;
+            if ((axi>=RC) || (bxi>=RC) || (cxi>=RC) || (dxi>=RC)) crosses[i]|=2;
+            if ((ayi<=TC) || (byi<=TC) || (cyi<=TC) || (dyi<=TC)) crosses[i]|=4;
+            if ((ayi>=BC) || (byi>=BC) || (cyi>=BC) || (dyi>=BC)) crosses[i]|=8;
             
             //swap data for next time
             ax = dx; ay = dy;
@@ -199,7 +195,6 @@ void Gesture :: compile() {
         
         // handle the last point
 		p2 = path[nPathPoints];
-        
 		polygons[nPolys].xpoints[0] = (int) ax;
 		polygons[nPolys].xpoints[1] = (int) bx;
 		polygons[nPolys].xpoints[2] = (int) p2.x;
