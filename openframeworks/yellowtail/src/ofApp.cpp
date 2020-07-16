@@ -92,7 +92,7 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
             int cr;
 
 			ofMesh mesh;
-			mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+			mesh.setMode(OF_PRIMITIVE_POINTS);
 			
             for (int i=0; i < gesture.nPolys; i++) {
                 //cout << ofToString(gesture.polygons[i].xpoints) + " " + ofToString(gesture.polygons[i].xpoints) << endl;
