@@ -17,11 +17,11 @@
 
 void ofApp :: setup() {
 	ofSetFrameRate(60);
+	ofSetVerticalSync(false);
     
     currentGestureID = -1;
-    gestureArray.resize(nGestures);
     for (int i=0; i<nGestures; i++){
-        gestureArray[i] = Gesture(ofGetWidth(), ofGetHeight());
+        gestureArray.push_back(Gesture(ofGetWidth(), ofGetHeight()));
     }
     clearGestures();
 }
@@ -92,14 +92,8 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
     if (gesture.exists) {
         if (gesture.nPolys > 0) {
             int cr;
-            
-            //noStroke();
-            ofSetColor(255,0,0);
-            ofFill();
-            ofMesh mesh;
-            mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-            //ofBeginShape();
-            int gnp = gesture.nPolys;
+
+			ofMesh mesh;
 			mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
 			
 			int gnp = gesture.nPolys;
@@ -197,40 +191,5 @@ void ofApp :: clearGestures() {
 void ofApp :: frameRateTitle() {
     string s = ofToString(ofGetFrameRate(), 2) + "fps";
     ofSetWindowTitle(s + "  |  exists: " + ofToString(countActiveGestures()) + "  |  active: " + ofToString(currentGestureID));
-}
-
-//--------------------------------------------------------------
-void ofApp :: keyReleased(int key) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp :: mouseMoved(int x, int y ) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp :: mouseEntered(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp :: mouseExited(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp :: windowResized(int w, int h) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp :: gotMessage(ofMessage msg) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp :: dragEvent(ofDragInfo dragInfo) { 
-
 }
 
