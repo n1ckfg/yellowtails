@@ -107,9 +107,9 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                 mesh.addIndex(mesh.getNumVertices()-4);
                 mesh.addIndex(mesh.getNumVertices()-3);
                 mesh.addIndex(mesh.getNumVertices()-2);
-                mesh.addIndex(mesh.getNumVertices()-3);
                 mesh.addIndex(mesh.getNumVertices()-2);
                 mesh.addIndex(mesh.getNumVertices()-1);
+                mesh.addIndex(mesh.getNumVertices()-4);
 
 				if ((cr = gesture.crosses[i]) > 0) {
                     if ((cr & 3)>0) {
@@ -121,9 +121,9 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                         mesh.addIndex(mesh.getNumVertices()-4);
                         mesh.addIndex(mesh.getNumVertices()-3);
                         mesh.addIndex(mesh.getNumVertices()-2);
-                        mesh.addIndex(mesh.getNumVertices()-3);
                         mesh.addIndex(mesh.getNumVertices()-2);
                         mesh.addIndex(mesh.getNumVertices()-1);
+                        mesh.addIndex(mesh.getNumVertices()-4);
                         
                         mesh.addVertex(ofVec3f((float)apoly->xpoints[0] - w, (float)apoly->ypoints[0]));
 						mesh.addVertex(ofVec3f((float)apoly->xpoints[1] - w, (float)apoly->ypoints[1]));
@@ -133,9 +133,9 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                         mesh.addIndex(mesh.getNumVertices()-4);
                         mesh.addIndex(mesh.getNumVertices()-3);
                         mesh.addIndex(mesh.getNumVertices()-2);
-                        mesh.addIndex(mesh.getNumVertices()-3);
                         mesh.addIndex(mesh.getNumVertices()-2);
                         mesh.addIndex(mesh.getNumVertices()-1);
+                        mesh.addIndex(mesh.getNumVertices()-4);
 					}
 					if ((cr & 12) > 0) {
 						mesh.addVertex(ofVec3f((float)apoly->xpoints[0], (float)apoly->ypoints[0] + h));
@@ -146,9 +146,9 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                         mesh.addIndex(mesh.getNumVertices()-4);
                         mesh.addIndex(mesh.getNumVertices()-3);
                         mesh.addIndex(mesh.getNumVertices()-2);
-                        mesh.addIndex(mesh.getNumVertices()-3);
                         mesh.addIndex(mesh.getNumVertices()-2);
                         mesh.addIndex(mesh.getNumVertices()-1);
+                        mesh.addIndex(mesh.getNumVertices()-4);
 
 						mesh.addVertex(ofVec3f((float)apoly->xpoints[0], (float)apoly->ypoints[0] - h));
 						mesh.addVertex(ofVec3f((float)apoly->xpoints[1], (float)apoly->ypoints[1] - h));
@@ -158,9 +158,9 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                         mesh.addIndex(mesh.getNumVertices()-4);
                         mesh.addIndex(mesh.getNumVertices()-3);
                         mesh.addIndex(mesh.getNumVertices()-2);
-                        mesh.addIndex(mesh.getNumVertices()-3);
                         mesh.addIndex(mesh.getNumVertices()-2);
                         mesh.addIndex(mesh.getNumVertices()-1);
+                        mesh.addIndex(mesh.getNumVertices()-4);
 					}
                     // I have knowingly retained the small flaw of not
                     // completely dealing with the corner conditions
@@ -168,7 +168,7 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                 }
 
             }
-			mesh.drawWireframe();
+			mesh.draw();
         }
     }
 }
