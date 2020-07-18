@@ -99,50 +99,33 @@ void ofApp :: renderGesture(Gesture& gesture, int w, int h) {
                 //cout << ofToString(gesture.polygons[i].xpoints) + " " + ofToString(gesture.polygons[i].xpoints) << endl;
 				apoly = &gesture.polygons[i];
 
-				int order0 = 0;
-				int order1 = 1;
-				int order2 = 2;
-				int order3 = 0;
-				int order4 = 3;
-				int order5 = 2;
-
-                mesh.addVertex(ofVec3f((float)apoly->xpoints[order0], (float)apoly->ypoints[order0]));
-				mesh.addVertex(ofVec3f((float)apoly->xpoints[order1], (float)apoly->ypoints[order1]));
-				mesh.addVertex(ofVec3f((float)apoly->xpoints[order2], (float)apoly->ypoints[order2]));
-				mesh.addVertex(ofVec3f((float)apoly->xpoints[order3], (float)apoly->ypoints[order3]));
-				mesh.addVertex(ofVec3f((float)apoly->xpoints[order4], (float)apoly->ypoints[order4]));
-				mesh.addVertex(ofVec3f((float)apoly->xpoints[order5], (float)apoly->ypoints[order5]));
+                mesh.addVertex(ofVec3f((float)apoly->xpoints[0], (float)apoly->ypoints[0]));
+				mesh.addVertex(ofVec3f((float)apoly->xpoints[1], (float)apoly->ypoints[1]));
+				mesh.addVertex(ofVec3f((float)apoly->xpoints[2], (float)apoly->ypoints[2]));
+				mesh.addVertex(ofVec3f((float)apoly->xpoints[3], (float)apoly->ypoints[3]));
 
 				if ((cr = gesture.crosses[i]) > 0) {
                     if ((cr & 3)>0) {
-                        mesh.addVertex(ofVec3f((float)apoly->xpoints[order0] + w, (float)apoly->ypoints[order0]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order1] + w, (float)apoly->ypoints[order1]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order2] + w, (float)apoly->ypoints[order2]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order3] + w, (float)apoly->ypoints[order3]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order4] + w, (float)apoly->ypoints[order4]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order5] + w, (float)apoly->ypoints[order5]));
+                        mesh.addVertex(ofVec3f((float)apoly->xpoints[0] + w, (float)apoly->ypoints[0]));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[1] + w, (float)apoly->ypoints[1]));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[2] + w, (float)apoly->ypoints[2]));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[3] + w, (float)apoly->ypoints[3]));
 
-                        mesh.addVertex(ofVec3f((float)apoly->xpoints[order0] - w, (float)apoly->ypoints[order0]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order1] - w, (float)apoly->ypoints[order1]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order2] - w, (float)apoly->ypoints[order2]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order3] - w, (float)apoly->ypoints[order3]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order4] - w, (float)apoly->ypoints[order4]));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order5] - w, (float)apoly->ypoints[order5]));
+                        mesh.addVertex(ofVec3f((float)apoly->xpoints[0] - w, (float)apoly->ypoints[0]));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[1] - w, (float)apoly->ypoints[1]));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[2] - w, (float)apoly->ypoints[2]));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[3] - w, (float)apoly->ypoints[3]));
 					}
 					if ((cr & 12) > 0) {
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order0], (float)apoly->ypoints[order0] + h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order1], (float)apoly->ypoints[order1] + h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order2], (float)apoly->ypoints[order2] + h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order3], (float)apoly->ypoints[order3] + h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order4], (float)apoly->ypoints[order4] + h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order5], (float)apoly->ypoints[order5] + h));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[0], (float)apoly->ypoints[0] + h));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[1], (float)apoly->ypoints[1] + h));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[2], (float)apoly->ypoints[2] + h));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[3], (float)apoly->ypoints[3] + h));
 
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order0], (float)apoly->ypoints[order0] - h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order1], (float)apoly->ypoints[order1] - h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order2], (float)apoly->ypoints[order2] - h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order3], (float)apoly->ypoints[order3] - h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order4], (float)apoly->ypoints[order4] - h));
-						mesh.addVertex(ofVec3f((float)apoly->xpoints[order5], (float)apoly->ypoints[order5] - h));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[0], (float)apoly->ypoints[0] - h));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[1], (float)apoly->ypoints[1] - h));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[2], (float)apoly->ypoints[2] - h));
+						mesh.addVertex(ofVec3f((float)apoly->xpoints[3], (float)apoly->ypoints[3] - h));
 					}
                     // I have knowingly retained the small flaw of not
                     // completely dealing with the corner conditions
