@@ -213,14 +213,14 @@ void Gesture :: smooth() {
     float weight = 18;
     float scale  = 1.0/(weight + 2);
     int nPointsMinusTwo = nPoints - 2;
-    Vec3f lower, upper, center;
+    Vec3f *lower, *upper, *center;
     
     for (int i=1; i<nPointsMinusTwo; i++) {
-        lower = path[i-1];
-        center = path[i];
-        upper = path[i+1];
+        lower = &path[i-1];
+        center = &path[i];
+        upper = &path[i+1];
         
-        center.x = (lower.x + weight * center.x + upper.x) * scale;
-        center.y = (lower.y + weight * center.y + upper.y) * scale;
+        center->x = (lower->x + weight * center->x + upper->x) * scale;
+        center->y = (lower->y + weight * center->y + upper->y) * scale;
     }
 }
