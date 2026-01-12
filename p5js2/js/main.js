@@ -74,8 +74,8 @@ function windowResized() {
 }
 
 function localMouse() {
-    localX = map(mouseX, 0, width, 0, pg.width) - (pg.width/2);
-    localY = map(mouseY, 0, height, 0, pg.height) - (pg.height/2);
+    localX = map(mouseX, 0, width, 0, pg.width); //- (pg.width/2);
+    localY = map(mouseY, 0, height, 0, pg.height); //- (pg.height/2);
 }
 
 function mousePressed() {
