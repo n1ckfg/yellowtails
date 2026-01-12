@@ -39,7 +39,7 @@ function setup() {
 	tmpXp = [];
 	tmpYp = [];
 
-	pg = createGraphics(800, 600);
+	pg = createGraphics(800, 800);
 	pg.background(0, 0, 0);
 	//noStroke();
     pg.stroke(255);
