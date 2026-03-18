@@ -39,7 +39,7 @@ void settings() {
 
 void setup() {
   frameRate(fps);
-  canvas = createGraphics(sW,sH,P3D);
+  canvas = createGraphics(sW, sH, P2D);
   myW = width;
   myH = height;
   background(0, 0, 0);
