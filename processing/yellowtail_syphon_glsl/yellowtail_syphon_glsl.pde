@@ -37,7 +37,7 @@ void settings() {
   size(sW, sH, P3D);
 }
 
-void setup(){
+void setup() {
   frameRate(fps);
   canvas = createGraphics(sW,sH,P3D);
   myW = width;
@@ -47,7 +47,7 @@ void setup(){
 
   currentGestureID = -1;
   gestureArray = new Gesture[nGestures];
-  for (int i=0; i<nGestures; i++){
+  for (int i=0; i<nGestures; i++) {
     gestureArray[i] = new Gesture(myW, myH);
   }
   clearGestures();
@@ -82,13 +82,13 @@ void setup(){
   //textureMode(NORMALIZED);
 }
 
-void draw(){
+void draw() {
   canvas.beginDraw(); //1.  begin draw loop
   canvas.background(0);
 
   updateGeometry();
   canvas.fill(255, 255, 245);
-  for (int G=0; G<nGestures; G++){
+  for (int G=0; G<nGestures; G++) {
     renderGesture(gestureArray[G],myW,myH);
   }
   
@@ -102,19 +102,10 @@ void draw(){
     
   noStroke();
   
-  beginShape(QUADS);
-  texture(canvas);
-  vertex(mouseX, 0, float(mouseX)/width, 0);
-  vertex(width, 0, 1, 0); 
-  vertex(width, height, 1, 1); 
-  vertex(mouseX, height, float(mouseX)/width, 1);  
-  endShape();
-  
   ellipse(mouseX,mouseY,20,20);  //5.  extra elements that aren't sent to Syphon
 }
 
-void mousePressed()
-{
+void mousePressed() {
   theMouseDown = true;
   currentGestureID = (currentGestureID+1)%nGestures;
   Gesture G = gestureArray[currentGestureID];
@@ -123,9 +114,9 @@ void mousePressed()
   G.addPoint(mouseX, mouseY);
 }
 
-void mouseDragged(){
+void mouseDragged() {
   theMouseDown = true;
-  if (currentGestureID >= 0){
+  if (currentGestureID >= 0) {
     Gesture G = gestureArray[currentGestureID];
     if (G.distToLast(mouseX, mouseY) > minMove) {
       G.addPoint(mouseX, mouseY);
@@ -135,20 +126,19 @@ void mouseDragged(){
   }
 }
 
-void mouseMoved(){
+void mouseMoved() {
   theMouseDown = false;
 }
 
-void mouseReleased(){
+void mouseReleased() {
   theMouseDown = false;
 }
 
-
-void keyPressed(){
-  switch (key){
+void keyPressed() {
+  switch (key) {
     case '+':      
     case '=':
-      if (currentGestureID >= 0){
+      if (currentGestureID >= 0) {
         float th = gestureArray[currentGestureID].thickness;
         gestureArray[currentGestureID].thickness = Math.min(96, th+1);
         gestureArray[currentGestureID].compile();
@@ -156,7 +146,7 @@ void keyPressed(){
       break;
       
     case '-':
-      if (currentGestureID >= 0){
+      if (currentGestureID >= 0) {
         float th = gestureArray[currentGestureID].thickness;
         gestureArray[currentGestureID].thickness = Math.max(2, th-1);
         gestureArray[currentGestureID].compile();
@@ -197,10 +187,9 @@ void keyPressed(){
   }    
 }
 
-
-void renderGesture (Gesture gesture, int w, int h){
-  if (gesture.exists){
-    if (gesture.nPolys > 0){
+void renderGesture (Gesture gesture, int w, int h) {
+  if (gesture.exists) {
+    if (gesture.nPolys > 0) {
       Polygon polygons[] = gesture.polygons;
       int crosses[] = gesture.crosses;
 
@@ -212,7 +201,7 @@ void renderGesture (Gesture gesture, int w, int h){
       canvas.noStroke();
       canvas.beginShape(QUADS);
       int gnp = gesture.nPolys;
-      for (int i=0; i<gnp; i++){
+      for (int i=0; i<gnp; i++) {
 
         p = polygons[i];
         xpts = p.xpoints;
@@ -223,8 +212,8 @@ void renderGesture (Gesture gesture, int w, int h){
         canvas.vertex(xpts[2], ypts[2]);
         canvas.vertex(xpts[3], ypts[3]);
 
-        if ((cr = crosses[i]) > 0){
-          if ((cr & 3)>0){
+        if ((cr = crosses[i]) > 0) {
+          if ((cr & 3)>0) {
             canvas.vertex(xpts[0]+w, ypts[0]);
             canvas.vertex(xpts[1]+w, ypts[1]);
             canvas.vertex(xpts[2]+w, ypts[2]);
@@ -235,7 +224,7 @@ void renderGesture (Gesture gesture, int w, int h){
             canvas.vertex(xpts[2]-w, ypts[2]);
             canvas.vertex(xpts[3]-w, ypts[3]);
           }
-          if ((cr & 12)>0){
+          if ((cr & 12)>0) {
             canvas.vertex(xpts[0], ypts[0]+h);
             canvas.vertex(xpts[1], ypts[1]+h);
             canvas.vertex(xpts[2], ypts[2]+h);
@@ -253,30 +242,30 @@ void renderGesture (Gesture gesture, int w, int h){
   }
 }
 
-private void updateGeometry(){
+private void updateGeometry() {
   Gesture J;
-  for (int g=0; g<nGestures; g++){
-    if ((J=gestureArray[g]).exists){
-      if (g!=currentGestureID){
+  for (int g=0; g<nGestures; g++) {
+    if ((J=gestureArray[g]).exists) {
+      if (g!=currentGestureID) {
         advanceGesture(J);
-      } else if (!theMouseDown){
+      } else if (!theMouseDown) {
         advanceGesture(J);
       }
     }
   }
 }
 
-void advanceGesture(Gesture gesture){
-  if (gesture.exists){
+void advanceGesture(Gesture gesture) {
+  if (gesture.exists) {
     int nPts = gesture.nPoints;
     int nPts1 = nPts-1;
     Vec3f path[];
     float jx = gesture.jumpDx;
     float jy = gesture.jumpDy;
 
-    if (nPts > 0){
+    if (nPts > 0) {
       path = gesture.path;
-      for (int i=nPts1; i>0; i--){
+      for (int i=nPts1; i>0; i--) {
         path[i].x = path[i-1].x;
         path[i].y = path[i-1].y;
       }
@@ -287,8 +276,8 @@ void advanceGesture(Gesture gesture){
   }
 }
 
-void clearGestures(){
-  for (int i=0; i<nGestures; i++){
+void clearGestures() {
+  for (int i=0; i<nGestures; i++) {
     gestureArray[i].clear();
   }
 }
