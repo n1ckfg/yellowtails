@@ -18,15 +18,15 @@ void main()
   
     mat3 I;
     float cnv[2];
-    vec3 sample;
-    
+    vec3 texSample;
+
     // fetch the 3x3 neighbourhood and use the RGB vector's length as intensity value
     for (int i=0; i<3; i++)
     {
-      for (int j=0; j<3; j++) 
+      for (int j=0; j<3; j++)
       {
-        sample = texture2D(texture, uv + vec2(float(i-1)*texOffset.x, float(j-1)*texOffset.y)).rgb;
-        I[i][j] = length(sample); 
+        texSample = texture2D(texture, uv + vec2(float(i-1)*texOffset.x, float(j-1)*texOffset.y)).rgb;
+        I[i][j] = length(texSample); 
       }
     }
     
