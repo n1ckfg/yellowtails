@@ -36,15 +36,13 @@ function setup() {
     minMove = 3;     // Minimum travel for a new point
 
     renderer = new THREE.WebGLRenderer({ antialias: false });
-    renderer.setSize(PG_W, PG_H);
     renderer.setClearColor(0x000000, 1);
-    renderer.domElement.style.width = "100%";
-    renderer.domElement.style.height = "100%";
     document.body.appendChild(renderer.domElement);
 
     scene = new THREE.Scene();
 
-    // y-down orthographic camera matching the p5 coordinate space
+    // Orthographic camera in the 800x800 logical (p5) space. Vertices are
+    // written with y negated so that p5's y-down maps to three's y-up screen.
     camera = new THREE.OrthographicCamera(0, PG_W, 0, -PG_H, -1, 1);
 
     // 6 quads max per polygon (base + x-wrap x2 + y-wrap x2), 6 verts per quad
@@ -75,8 +73,17 @@ function setup() {
 
     clearGestures();
 
+    resize();
     addEvents();
     animate();
+}
+
+// Match p5's createCanvas(windowHeight, windowHeight): a square canvas whose
+// side equals the window height, centered by the CSS flex layout.
+function resize() {
+    const side = window.innerHeight;
+    renderer.setPixelRatio(window.devicePixelRatio || 1);
+    renderer.setSize(side, side);
 }
 
 function animate() {
@@ -90,7 +97,9 @@ function animate() {
 function addEvents() {
     const canvas = renderer.domElement;
 
-    canvas.addEventListener("mousedown", (e) => {
+    window.addEventListener("resize", resize);
+
+    canvas.addEventListener("pointerdown", (e) => {
         mouseDown = true;
         localMouse(e);
         currentGestureID = (currentGestureID + 1) % nGestures;
@@ -100,7 +109,7 @@ function addEvents() {
         G.addPoint(localX, localY);
     });
 
-    window.addEventListener("mousemove", (e) => {
+    window.addEventListener("pointermove", (e) => {
         localMouse(e);
         if (mouseDown && currentGestureID >= 0) {
             let G = gestureArray[currentGestureID];
@@ -112,7 +121,7 @@ function addEvents() {
         }
     });
 
-    window.addEventListener("mouseup", () => {
+    window.addEventListener("pointerup", () => {
         mouseDown = false;
     });
 
@@ -130,6 +139,7 @@ function addEvents() {
                 gestureArray[currentGestureID].compile();
             }
         } else if (e.key === " ") {
+            e.preventDefault();
             clearGestures();
         }
     });
@@ -191,13 +201,14 @@ function renderGestures() {
 }
 
 // writes one quad as two triangles, returns the new vertex count
+// y is negated to convert p5's y-down space into the camera's y-up space
 function writeQuad(arr, f, x0, y0, x1, y1, x2, y2, x3, y3) {
-    arr[f] = x0; arr[f + 1] = y0; arr[f + 2] = 0;
-    arr[f + 3] = x1; arr[f + 4] = y1; arr[f + 5] = 0;
-    arr[f + 6] = x2; arr[f + 7] = y2; arr[f + 8] = 0;
-    arr[f + 9] = x0; arr[f + 10] = y0; arr[f + 11] = 0;
-    arr[f + 12] = x2; arr[f + 13] = y2; arr[f + 14] = 0;
-    arr[f + 15] = x3; arr[f + 16] = y3; arr[f + 17] = 0;
+    arr[f] = x0; arr[f + 1] = -y0; arr[f + 2] = 0;
+    arr[f + 3] = x1; arr[f + 4] = -y1; arr[f + 5] = 0;
+    arr[f + 6] = x2; arr[f + 7] = -y2; arr[f + 8] = 0;
+    arr[f + 9] = x0; arr[f + 10] = -y0; arr[f + 11] = 0;
+    arr[f + 12] = x2; arr[f + 13] = -y2; arr[f + 14] = 0;
+    arr[f + 15] = x3; arr[f + 16] = -y3; arr[f + 17] = 0;
     return f / 3 + 6;
 }
 
